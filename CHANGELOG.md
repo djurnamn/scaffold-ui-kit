@@ -5,6 +5,25 @@ All notable changes to scaffold-ui-kit are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-06-28
+
+scaffold-ui-kit now lives in its own repository, presented as a project built on
+[js-template-engine](https://www.npmjs.com/package/js-template-engine). The
+package name, the `npx scaffold-ui-kit` command, and the published versions are
+unchanged; the version line continues from the 2.x it shipped on.
+
+### Added
+
+- **Hand-written drivers.** Components needing behavior a template cannot express
+  (local state, an effect, a headless library) are authored per target under
+  `src/drivers/<target>/`. `build` copies each driver into `dist/<target>/` and
+  the target barrel re-exports it beside the generated components.
+- **Runtime BEM.** `bemMode: 'runtime'` renders BEM classes as `use-bem` calls
+  rather than static class strings.
+- **SCSS load paths.** Under `scss`, `loadPaths` lets a kit author SCSS helpers
+  (mixins, functions, `$variables`) and still emit any styling strategy, the
+  engine resolving them to plain CSS at build.
+
 ## [2.0.0] - 2026-06-15
 
 ### Added

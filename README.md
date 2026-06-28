@@ -8,7 +8,7 @@ configurable extensions.
 
 A kit created by scaffold-ui-kit is an npm package with a single source of
 truth in `src/components/`, built output per target in `dist/<target>/`,
-and a consumer CLI that copies built components into consuming projects - 
+and a consumer CLI that copies built components into consuming projects -
 no engine dependency ever reaches a consumer.
 
 ## Create a kit
@@ -100,15 +100,47 @@ Optional keys: `stylingStrategy` and `scriptingStrategy`
 (`inline` | `in-file` | `separate-file`, default `in-file`),
 `stylingLanguage` (`css` | `scss`, default `css`) - `scss` emits nested
 SCSS; the `react` and `html` targets need `stylingStrategy: 'separate-file'`
-under it - `scriptingLanguage` (`javascript` | `typescript`, default
+under it - `loadPaths` (an array of directories relative to the kit root) -
+sass load paths for resolving `@use`/`@include` in component styles: under
+`stylingLanguage: 'css'` the kit can author SCSS helpers (mixins, functions,
+`$variables`) and still emit any styling strategy, the engine expanding them
+to plain CSS at build - `scriptingLanguage` (`javascript` | `typescript`, default
 `javascript`) - `typescript` types the generated prop consts; it affects
-the `html` target only and needs `scriptingStrategy: 'separate-file'` there - 
-`bemElementSeparator` / `bemModifierSeparator`, `tailwindOutput`
+the `html` target only and needs `scriptingStrategy: 'separate-file'` there -
+`bemElementSeparator` / `bemModifierSeparator`, `bemMode`
+(`literal` | `runtime`, default `literal`) - `runtime` renders BEM classes
+as [`use-bem`](https://www.npmjs.com/package/use-bem) `bem(...)` calls for the
+framework targets instead of literal strings, with `bemImportSource` (default
+`use-bem`) naming the package; add `use-bem` to the kit's dependencies when you
+use it - `tailwindOutput`
 (`classes` | `styles`, default `classes`) - set it to `styles` to convert
 the Tailwind utilities to plain CSS at build time, so the output needs no
 Tailwind build of its own - and `tailwindConvertStyles` (`true` | `false`,
 default `false`), the inverse: convert each component's authored `style`
 into Tailwind utility classes.
+
+## Hand-written drivers
+
+Some components need behavior a template can't express - local state, an effect,
+a third-party headless library. Author those by hand, per target, under
+`src/drivers/<target>/`:
+
+```
+src/
+├── components/
+│   └── ToastVisual.ts      # generated markup, every target
+└── drivers/
+    ├── react/Toast.tsx     # hand-written behavior, composing ToastVisual
+    ├── vue/Toast.vue
+    └── svelte/Toast.svelte
+```
+
+`build` copies each driver verbatim into `dist/<target>/`, subdirectories and
+all, and the target's barrel re-exports it beside the generated components - so a
+consumer imports both `Toast` and `ToastVisual` from the one target entry.
+Drivers are framework-only; `src/drivers/html/` is ignored. A driver whose file
+name collides with a generated component fails the build rather than overwriting
+it.
 
 ## Publish and consume
 

@@ -36,6 +36,8 @@ export function buildExtensions(
       ? bem({
           elementSeparator: configuration.bemElementSeparator,
           modifierSeparator: configuration.bemModifierSeparator,
+          mode: configuration.bemMode,
+          importSource: configuration.bemImportSource,
         })
       : tailwind({
           output: configuration.tailwindOutput,

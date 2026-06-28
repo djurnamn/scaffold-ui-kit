@@ -15,9 +15,13 @@ export const stylingNames = ['bem', 'tailwind'] as const;
 /** How the Tailwind extension emits: utility classes or converted styles. */
 export const tailwindOutputs = ['classes', 'styles'] as const;
 
+/** How the BEM extension renders classes: literal strings or runtime calls. */
+export const bemModes = ['literal', 'runtime'] as const;
+
 export type TargetName = (typeof targetNames)[number];
 export type StylingName = (typeof stylingNames)[number];
 export type TailwindOutput = (typeof tailwindOutputs)[number];
+export type BemMode = (typeof bemModes)[number];
 
 const outputStrategies = ['inline', 'in-file', 'separate-file'];
 
@@ -53,6 +57,15 @@ export interface KitConfiguration {
    * under `'scss'`; Vue and Svelte tag their SFC style blocks `lang="scss"`.
    */
   stylingLanguage?: 'css' | 'scss';
+  /**
+   * Sass load-path directories, relative to the kit root, for resolving
+   * `@use`/`@include` in component styles. Under `stylingLanguage: 'css'`
+   * (or the `inline` strategy) the engine resolves the Sass itself against
+   * them - expanding mixins, functions, and `$variables` to flat CSS - so a
+   * kit can author SCSS helpers and still emit any styling strategy. Under
+   * `'scss'` they pass through for the consumer's own sass build.
+   */
+  loadPaths?: string[];
   /** Script output strategy; defaults to `'in-file'`. */
   scriptingStrategy?: OutputStrategy;
   /**
@@ -66,6 +79,18 @@ export interface KitConfiguration {
   bemElementSeparator?: string;
   /** Separator before a BEM modifier; defaults to `'--'`. */
   bemModifierSeparator?: string;
+  /**
+   * How BEM classes are rendered when `'bem'` is in `styling`; defaults to
+   * `'literal'`. `'runtime'` emits `use-bem` `bem(...)` calls for the
+   * framework targets (HTML keeps the literal classes) - the kit then ships
+   * `use-bem` as a peer dependency. Ignored when `'bem'` is not configured.
+   */
+  bemMode?: BemMode;
+  /**
+   * The package the `use-bem` helper is imported from under
+   * `bemMode: 'runtime'`; defaults to `'use-bem'`. Ignored otherwise.
+   */
+  bemImportSource?: string;
 }
 
 /**
@@ -129,11 +154,32 @@ export function validateConfiguration(value: unknown): string[] {
     problems.push("'scriptingLanguage' must be one of javascript, typescript");
   }
 
+  const loadPaths = configuration.loadPaths;
+  if (
+    loadPaths !== undefined &&
+    (!Array.isArray(loadPaths) ||
+      !loadPaths.every((path) => typeof path === 'string'))
+  ) {
+    problems.push("'loadPaths' must be an array of strings");
+  }
+
   for (const key of ['bemElementSeparator', 'bemModifierSeparator'] as const) {
     const separator = configuration[key];
     if (separator !== undefined && typeof separator !== 'string') {
       problems.push(`'${key}' must be a string`);
     }
+  }
+
+  const bemMode = configuration.bemMode;
+  if (bemMode !== undefined && !bemModes.includes(bemMode as BemMode)) {
+    problems.push(`'bemMode' must be one of ${bemModes.join(', ')}`);
+  }
+
+  if (
+    configuration.bemImportSource !== undefined &&
+    typeof configuration.bemImportSource !== 'string'
+  ) {
+    problems.push("'bemImportSource' must be a string");
   }
 
   if (

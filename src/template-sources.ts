@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { basename, extname, join } from 'node:path';
+import { basename, extname, join, relative } from 'node:path';
 
 import type { Template } from '@js-template-engine/types';
 import { createJiti } from 'jiti';
@@ -34,6 +34,55 @@ export function listComponentTemplates(kitDirectory: string): string[] {
     )
     .map((entry) => join(componentsDirectory, entry.name))
     .sort();
+}
+
+/** A hand-authored driver file discovered under `src/drivers/<target>/`. */
+export interface DriverFile {
+  /** Absolute path of the source file. */
+  absolutePath: string;
+  /**
+   * Path relative to `src/drivers/<target>/`, preserving subdirectories;
+   * the same path the file is copied to under `dist/<target>/`.
+   */
+  relativePath: string;
+}
+
+/**
+ * Lists the hand-authored driver files of a kit for one target.
+ *
+ * Drivers live under `src/drivers/<target>/` and are copied verbatim into
+ * `dist/<target>/` by the `build` command (ship-raw / copy-and-own). The
+ * search is recursive so a driver's helpers and types in subdirectories
+ * are carried through unchanged. A missing directory yields an empty list.
+ *
+ * @param kitDirectory - The kit root directory.
+ * @param target - The framework target whose drivers to list.
+ * @returns The driver files, sorted by relative path.
+ */
+export function listDriverFiles(
+  kitDirectory: string,
+  target: string
+): DriverFile[] {
+  const driversDirectory = join(kitDirectory, 'src', 'drivers', target);
+  if (!existsSync(driversDirectory)) {
+    return [];
+  }
+  const files: DriverFile[] = [];
+  const walk = (directory: string): void => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const absolutePath = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        walk(absolutePath);
+      } else if (entry.isFile()) {
+        files.push({
+          absolutePath,
+          relativePath: relative(driversDirectory, absolutePath),
+        });
+      }
+    }
+  };
+  walk(driversDirectory);
+  return files.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 }
 
 /**

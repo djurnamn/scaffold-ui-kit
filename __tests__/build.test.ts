@@ -1,4 +1,11 @@
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { join } from 'node:path';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -108,6 +115,80 @@ describe('buildCommand', () => {
     expect(existsSync(join(kitDirectory, 'dist', 'html', 'index.ts'))).toBe(
       false
     );
+  });
+
+  const writeDriver = (target: string, fileName: string, content: string) => {
+    const directory = join(kitDirectory, 'src', 'drivers', target);
+    mkdirSync(directory, { recursive: true });
+    writeFileSync(join(directory, fileName), content);
+  };
+
+  it('copies drivers through and merges them into the barrel', async () => {
+    writeDriver('react', 'Toast.tsx', 'export function Toast() {}\n');
+    writeDriver('vue', 'Toast.vue', '<template><div /></template>\n');
+    writeDriver('svelte', 'Toast.svelte', '<div />\n');
+    await buildCommand(kitDirectory);
+    expect(process.exitCode).toBeUndefined();
+
+    const cases: Array<[string, string, string]> = [
+      ['react', 'Toast.tsx', "export * from './Toast';"],
+      ['vue', 'Toast.vue', "export * from './Toast.vue';"],
+      ['svelte', 'Toast.svelte', "export * from './Toast.svelte';"],
+    ];
+    for (const [target, fileName, barrelLine] of cases) {
+      const driverPath = join(kitDirectory, 'dist', target, fileName);
+      expect(existsSync(driverPath), fileName).toBe(true);
+      const barrel = readFileSync(
+        join(kitDirectory, 'dist', target, 'index.ts'),
+        'utf8'
+      );
+      // The generated Visuals are exported first, the drivers after them.
+      expect(barrel.indexOf('Button')).toBeLessThan(barrel.indexOf(barrelLine));
+      expect(barrel, target).toContain(barrelLine);
+    }
+  });
+
+  it('preserves driver subdirectories and only barrels top-level modules', async () => {
+    writeDriver('react', 'Toast.tsx', 'export function Toast() {}\n');
+    writeDriver(
+      join('react', 'internal'),
+      'use-toast.ts',
+      'export const useToast = () => {};\n'
+    );
+    await buildCommand(kitDirectory);
+    expect(process.exitCode).toBeUndefined();
+
+    expect(
+      existsSync(join(kitDirectory, 'dist', 'react', 'internal', 'use-toast.ts'))
+    ).toBe(true);
+    const barrel = readFileSync(
+      join(kitDirectory, 'dist', 'react', 'index.ts'),
+      'utf8'
+    );
+    expect(barrel).toContain("export * from './Toast';");
+    expect(barrel).not.toContain('use-toast');
+  });
+
+  it('ignores drivers for the html target', async () => {
+    writeDriver('html', 'Toast.html', '<div>Toast</div>\n');
+    await buildCommand(kitDirectory);
+    expect(process.exitCode).toBeUndefined();
+    expect(existsSync(join(kitDirectory, 'dist', 'html', 'Toast.html'))).toBe(
+      false
+    );
+  });
+
+  it('fails the build when a driver collides with a generated file', async () => {
+    writeDriver('react', 'Button.tsx', 'export const Button = "driver";\n');
+    await buildCommand(kitDirectory);
+    expect(process.exitCode).toBe(1);
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('collides with generated dist/react/Button.tsx')
+    );
+    // The generated component is left intact, not clobbered by the driver.
+    expect(
+      readFileSync(join(kitDirectory, 'dist', 'react', 'Button.tsx'), 'utf8')
+    ).toContain('export function Button');
   });
 
   it('reports a failing template, continues, and exits non-zero', async () => {

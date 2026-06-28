@@ -81,6 +81,22 @@ describe('validateConfiguration', () => {
     ).toEqual(["'scriptingLanguage' must be one of javascript, typescript"]);
   });
 
+  it('accepts both bemMode values and an importSource, rejecting others', () => {
+    expect(
+      validateConfiguration({ ...validConfiguration, bemMode: 'literal' })
+    ).toEqual([]);
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        bemMode: 'runtime',
+        bemImportSource: '@scope/bem',
+      })
+    ).toEqual([]);
+    expect(
+      validateConfiguration({ ...validConfiguration, bemMode: 'calls' })
+    ).toEqual(["'bemMode' must be one of literal, runtime"]);
+  });
+
   it('accepts an empty styling list and a missing one', () => {
     expect(
       validateConfiguration({ ...validConfiguration, styling: [] })
@@ -101,6 +117,7 @@ describe('validateConfiguration', () => {
     [{ ...validConfiguration, tailwindOutput: 'css' }, 'tailwindOutput'],
     [{ ...validConfiguration, tailwindConvertStyles: 'yes' }, 'tailwindConvertStyles'],
     [{ ...validConfiguration, bemElementSeparator: 7 }, 'bemElementSeparator'],
+    [{ ...validConfiguration, bemImportSource: 9 }, 'bemImportSource'],
   ])('rejects %j', (value, messagePart) => {
     const problems = validateConfiguration(value);
     expect(problems.length).toBeGreaterThan(0);
