@@ -1,0 +1,68 @@
+{
+  "name": "scaffold-ui-kit",
+  "version": "2.0.0",
+  "description": "Scaffold framework-agnostic UI kits powered by js-template-engine: define components once as data, ship them for React, Vue, Svelte, and HTML",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "assets",
+    "README.md"
+  ],
+  "bin": {
+    "scaffold-ui-kit": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit -p tsconfig.type-check.json"
+  },
+  "dependencies": {
+    "@js-template-engine/core": "^2.0.0",
+    "@js-template-engine/extension-bem": "^2.0.0",
+    "@js-template-engine/extension-react": "^2.0.0",
+    "@js-template-engine/extension-svelte": "^2.0.0",
+    "@js-template-engine/extension-tailwind": "^2.0.0",
+    "@js-template-engine/extension-vue": "^2.0.0",
+    "@js-template-engine/types": "^2.0.0",
+    "commander": "^12.1.0",
+    "enquirer": "^2.4.1",
+    "jiti": "^2.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djurnamn/scaffold-ui-kit.git"
+  },
+  "keywords": [
+    "js-template-engine",
+    "ui-kit",
+    "component-library",
+    "design-system",
+    "scaffolding",
+    "react",
+    "vue",
+    "svelte"
+  ],
+  "author": "Björn Djurnamn <bjorn@djurnamn.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/djurnamn/scaffold-ui-kit/issues"
+  },
+  "homepage": "https://github.com/djurnamn/scaffold-ui-kit#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "vitest": "^1.6.1"
+  }
+}
