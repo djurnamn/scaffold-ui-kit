@@ -100,21 +100,111 @@ describe('buildCommand', () => {
     expect(html).toContain('padding-inline: 1rem');
   });
 
+  it('emits unlinked, layered stylesheets under stylesheetLink and stylingLayer', async () => {
+    writeFileSync(
+      join(kitDirectory, 'scaffold-ui-kit.config.json'),
+      JSON.stringify({
+        name: 'built-kit',
+        targets: ['react', 'vue', 'svelte', 'html'],
+        styling: ['bem'],
+        stylingStrategy: 'separate-file',
+        stylesheetLink: 'none',
+        stylingLayer: { name: 'kit.components', order: ['kit.base', 'kit.components'] },
+      })
+    );
+    await buildCommand(kitDirectory);
+    expect(process.exitCode).toBeUndefined();
+
+    for (const [component, stylesheet] of [
+      [join('react', 'Button.tsx'), join('react', 'Button.css')],
+      [join('vue', 'Button.vue'), join('vue', 'Button.css')],
+      [join('svelte', 'Button.svelte'), join('svelte', 'Button.css')],
+      [join('html', 'Button.html'), join('html', 'Button.css')],
+    ]) {
+      const componentContent = readFileSync(
+        join(kitDirectory, 'dist', component),
+        'utf8'
+      );
+      expect(componentContent).not.toContain('Button.css');
+      const stylesheetContent = readFileSync(
+        join(kitDirectory, 'dist', stylesheet),
+        'utf8'
+      );
+      expect(stylesheetContent).toContain('@layer kit.base, kit.components;');
+      expect(stylesheetContent).toContain('@layer kit.components {');
+    }
+  });
+
   it('writes a barrel per framework target and none for html', async () => {
     await buildCommand(kitDirectory);
     expect(
       readFileSync(join(kitDirectory, 'dist', 'react', 'index.ts'), 'utf8')
-    ).toBe(
-      "export { Button } from './Button';\nexport { Card } from './Card';\n"
-    );
+    ).toBe("export * from './Button';\nexport * from './Card';\n");
     expect(
       readFileSync(join(kitDirectory, 'dist', 'vue', 'index.ts'), 'utf8')
     ).toBe(
-      "export { default as Button } from './Button.vue';\nexport { default as Card } from './Card.vue';\n"
+      "export { default as Button } from './Button.vue';\n" +
+        "export * from './Button.vue';\n" +
+        "export { default as Card } from './Card.vue';\n" +
+        "export * from './Card.vue';\n"
     );
     expect(existsSync(join(kitDirectory, 'dist', 'html', 'index.ts'))).toBe(
       false
     );
+  });
+
+  it("re-exports a component template's exported types from the barrel", async () => {
+    // A template may declare `export type` / `export interface` beside its
+    // component (module-scope lines ride the `imports` field verbatim). The
+    // barrel must carry that full module surface on every framework target
+    // with no post-build step.
+    writeFileSync(
+      join(kitDirectory, 'src', 'components', 'table.json'),
+      JSON.stringify({
+        type: 'component',
+        name: 'Table',
+        imports: [
+          'export interface TableColumn { key: string; label: string; }',
+        ],
+        props: { columns: { type: 'TableColumn[]', required: true } },
+        children: [{ type: 'element', tag: 'table', children: [] }],
+      })
+    );
+    await buildCommand(kitDirectory);
+    expect(process.exitCode).toBeUndefined();
+
+    const cases: Array<[string, string, string[]]> = [
+      ['react', 'Table.tsx', ["export * from './Table';"]],
+      [
+        'vue',
+        'Table.vue',
+        [
+          "export { default as Table } from './Table.vue';",
+          "export * from './Table.vue';",
+        ],
+      ],
+      [
+        'svelte',
+        'Table.svelte',
+        [
+          "export { default as Table } from './Table.svelte';",
+          "export * from './Table.svelte';",
+        ],
+      ],
+    ];
+    for (const [target, fileName, barrelLines] of cases) {
+      expect(
+        readFileSync(join(kitDirectory, 'dist', target, fileName), 'utf8'),
+        fileName
+      ).toContain('export interface TableColumn');
+      const barrel = readFileSync(
+        join(kitDirectory, 'dist', target, 'index.ts'),
+        'utf8'
+      );
+      for (const barrelLine of barrelLines) {
+        expect(barrel, target).toContain(barrelLine);
+      }
+    }
   });
 
   const writeDriver = (target: string, fileName: string, content: string) => {
@@ -130,21 +220,39 @@ describe('buildCommand', () => {
     await buildCommand(kitDirectory);
     expect(process.exitCode).toBeUndefined();
 
-    const cases: Array<[string, string, string]> = [
-      ['react', 'Toast.tsx', "export * from './Toast';"],
-      ['vue', 'Toast.vue', "export * from './Toast.vue';"],
-      ['svelte', 'Toast.svelte', "export * from './Toast.svelte';"],
+    const cases: Array<[string, string, string[]]> = [
+      ['react', 'Toast.tsx', ["export * from './Toast';"]],
+      [
+        'vue',
+        'Toast.vue',
+        [
+          "export { default as Toast } from './Toast.vue';",
+          "export * from './Toast.vue';",
+        ],
+      ],
+      [
+        'svelte',
+        'Toast.svelte',
+        [
+          "export { default as Toast } from './Toast.svelte';",
+          "export * from './Toast.svelte';",
+        ],
+      ],
     ];
-    for (const [target, fileName, barrelLine] of cases) {
+    for (const [target, fileName, barrelLines] of cases) {
       const driverPath = join(kitDirectory, 'dist', target, fileName);
       expect(existsSync(driverPath), fileName).toBe(true);
       const barrel = readFileSync(
         join(kitDirectory, 'dist', target, 'index.ts'),
         'utf8'
       );
-      // The generated Visuals are exported first, the drivers after them.
-      expect(barrel.indexOf('Button')).toBeLessThan(barrel.indexOf(barrelLine));
-      expect(barrel, target).toContain(barrelLine);
+      for (const barrelLine of barrelLines) {
+        // The generated Visuals are exported first, the drivers after them.
+        expect(barrel.indexOf('Button')).toBeLessThan(
+          barrel.indexOf(barrelLine)
+        );
+        expect(barrel, target).toContain(barrelLine);
+      }
     }
   });
 

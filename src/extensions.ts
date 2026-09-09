@@ -8,12 +8,11 @@ import type { Extension } from '@js-template-engine/types';
 import type { KitConfiguration, TargetName } from './configuration';
 
 const frameworkFactories: Record<
-  Exclude<TargetName, 'html'>,
+  Exclude<TargetName, 'html' | 'svelte'>,
   () => Extension
 > = {
   react,
   vue,
-  svelte,
 };
 
 /**
@@ -44,7 +43,9 @@ export function buildExtensions(
           convertStyles: configuration.tailwindConvertStyles,
         })
   );
-  if (target !== 'html') {
+  if (target === 'svelte') {
+    extensions.push(svelte({ mode: configuration.svelteMode }));
+  } else if (target !== 'html') {
     extensions.push(frameworkFactories[target]());
   }
   return extensions;

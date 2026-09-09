@@ -1,7 +1,8 @@
-import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, relative, sep } from 'node:path';
 
 import { process as processTemplate } from '@js-template-engine/core';
+import type { StyleLayer } from '@js-template-engine/types';
 
 import {
   loadConfiguration,
@@ -9,6 +10,7 @@ import {
   type TargetName,
 } from '../configuration';
 import { buildExtensions } from '../extensions';
+import { writeConsumerCli } from '../scaffold';
 import {
   componentNameFromFilePath,
   listComponentTemplates,
@@ -62,6 +64,20 @@ export async function buildCommand(
     return;
   }
 
+  // A shared layer the consumer CLI would copy has to exist in the kit; a
+  // missing one is a configuration error, caught here rather than in the
+  // consumer's project.
+  const missingSharedSources = (configuration.add?.shared ?? [])
+    .map((layer) => layer.source)
+    .filter((source) => !existsSync(join(kitDirectory, source)));
+  if (missingSharedSources.length > 0) {
+    console.error(
+      `error: add.shared names ${missingSharedSources.map((source) => `'${source}'`).join(', ')}, which do${missingSharedSources.length === 1 ? 'es' : ''} not exist in the kit`
+    );
+    process.exitCode = 1;
+    return;
+  }
+
   let failed = false;
   for (const target of configuration.targets) {
     const targetDirectory = join(kitDirectory, 'dist', target);
@@ -78,9 +94,11 @@ export async function buildCommand(
           styling: {
             outputStrategy: configuration.stylingStrategy ?? 'in-file',
             language: configuration.stylingLanguage ?? 'css',
+            stylesheetLink: configuration.stylesheetLink ?? 'component',
             loadPaths: (configuration.loadPaths ?? []).map((path) =>
               join(kitDirectory, path)
             ),
+            layer: stylingLayerOf(configuration),
           },
           scripting: {
             outputStrategy: configuration.scriptingStrategy ?? 'in-file',
@@ -148,15 +166,46 @@ export async function buildCommand(
     }
   }
 
+  // The consumer CLI is this package's, not the kit's: refresh it on every
+  // build so a kit scaffolded by an earlier release ships the current one.
+  console.log(`wrote ${writeConsumerCli(kitDirectory)}`);
+
   if (failed) {
     process.exitCode = 1;
   }
 }
 
 /**
- * The barrel `export` line re-exporting one rendered component, derived
+ * The cascade layer the kit's emitted stylesheet rules are wrapped in. The
+ * configuration accepts a bare layer name as shorthand for the object form.
+ *
+ * @param configuration - The kit configuration.
+ * @returns The layer, or `undefined` when the kit configures none.
+ */
+function stylingLayerOf(
+  configuration: KitConfiguration
+): StyleLayer | undefined {
+  const layer = configuration.stylingLayer;
+  if (layer === undefined) {
+    return undefined;
+  }
+  return typeof layer === 'string' ? { name: layer } : layer;
+}
+
+/**
+ * The barrel `export` entry re-exporting one rendered component, derived
  * from the target's component file among the rendered output files. The
  * `html` target gets no barrel.
+ *
+ * The entry carries the component's full module surface, so an
+ * `export type` / `export interface` the template declares is importable
+ * from the barrel beside the component. React components are named
+ * exports, so `export * from` alone covers them (the same form drivers
+ * get). An SFC module's component is its default export - which a star
+ * export never forwards - so the SFC targets pair a named default
+ * re-export with the star line; at runtime the star line is a no-op (a
+ * compiled SFC's runtime surface is its default export), it exists for
+ * the type checker.
  */
 function barrelEntryFor(
   target: TargetName,
@@ -172,8 +221,8 @@ function barrelEntryFor(
   }
   const componentName = basename(componentFile.path, extension);
   return target === 'react'
-    ? `export { ${componentName} } from './${componentName}';`
-    : `export { default as ${componentName} } from './${componentFile.path}';`;
+    ? `export * from './${componentName}';`
+    : `export { default as ${componentName} } from './${componentFile.path}';\nexport * from './${componentFile.path}';`;
 }
 
 /**
@@ -182,10 +231,14 @@ function barrelEntryFor(
  * types, and files in subdirectories are imported by the driver rather
  * than re-exported from the kit).
  *
- * Drivers use `export * from` - forwarding whatever the hand-written
- * module exports (component plus any types) with no default-vs-named
- * assumption. The specifier matches the target's generated convention:
- * extensionless for react, file-suffixed for the SFC targets.
+ * Drivers get the same per-target rule as generated components. React
+ * drivers author their component as a named export, so `export * from`
+ * forwards the component and any types with no further assumption. An SFC
+ * driver's component is the module's default export - which a star export
+ * never forwards - so the SFC targets pair a named default re-export
+ * (named after the file) with the star line for the driver's types. The
+ * specifier matches the target's generated convention: extensionless for
+ * react, file-suffixed for the SFC targets.
  */
 function driverBarrelEntry(
   target: TargetName,
@@ -198,9 +251,10 @@ function driverBarrelEntry(
   if (extname(relativePath) !== extension) {
     return undefined;
   }
-  const specifier =
-    target === 'react' ? basename(relativePath, extension) : relativePath;
-  return `export * from './${specifier}';`;
+  const driverName = basename(relativePath, extension);
+  return target === 'react'
+    ? `export * from './${driverName}';`
+    : `export { default as ${driverName} } from './${relativePath}';\nexport * from './${relativePath}';`;
 }
 
 /**

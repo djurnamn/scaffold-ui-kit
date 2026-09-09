@@ -1,6 +1,6 @@
 {
   "name": "scaffold-ui-kit",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Scaffold framework-agnostic UI kits powered by js-template-engine: define components once as data, ship them for React, Vue, Svelte, and HTML",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,13 +28,13 @@
     "type-check": "tsc --noEmit -p tsconfig.type-check.json"
   },
   "dependencies": {
-    "@js-template-engine/core": "^2.1.0",
-    "@js-template-engine/extension-bem": "^2.1.0",
-    "@js-template-engine/extension-react": "^2.1.0",
-    "@js-template-engine/extension-svelte": "^2.1.0",
-    "@js-template-engine/extension-tailwind": "^2.1.0",
-    "@js-template-engine/extension-vue": "^2.1.0",
-    "@js-template-engine/types": "^2.1.0",
+    "@js-template-engine/core": "^2.2.0",
+    "@js-template-engine/extension-bem": "^2.2.0",
+    "@js-template-engine/extension-react": "^2.2.0",
+    "@js-template-engine/extension-svelte": "^2.2.0",
+    "@js-template-engine/extension-tailwind": "^2.2.0",
+    "@js-template-engine/extension-vue": "^2.2.0",
+    "@js-template-engine/types": "^2.2.0",
     "commander": "^12.1.0",
     "enquirer": "^2.4.1",
     "jiti": "^2.4.2"

@@ -61,12 +61,7 @@ export function scaffoldKit(options: ScaffoldOptions): string[] {
   writeKitFile('README.md', kitReadme(options));
 
   mkdirSync(join(kitDirectory, 'src', 'components'), { recursive: true });
-  mkdirSync(join(kitDirectory, 'bin'), { recursive: true });
-  copyFileSync(
-    join(assetsDirectory, 'bin', 'add.mjs'),
-    join(kitDirectory, 'bin', 'add.mjs')
-  );
-  createdFiles.push(join('bin', 'add.mjs'));
+  createdFiles.push(writeConsumerCli(kitDirectory));
 
   if (options.includeExamples) {
     for (const exampleFile of readdirSync(
@@ -79,6 +74,24 @@ export function scaffoldKit(options: ScaffoldOptions): string[] {
   }
 
   return createdFiles;
+}
+
+/**
+ * Writes the consumer CLI (`bin/add.mjs`) into a kit from this package's
+ * assets. `init` creates it; `build` refreshes it, so a kit scaffolded by
+ * an earlier release picks up the current CLI on its next build.
+ *
+ * @param kitDirectory - The kit root directory.
+ * @returns The written path, relative to the kit directory.
+ */
+export function writeConsumerCli(kitDirectory: string): string {
+  const relativePath = join('bin', 'add.mjs');
+  mkdirSync(join(kitDirectory, 'bin'), { recursive: true });
+  copyFileSync(
+    join(assetsDirectory, 'bin', 'add.mjs'),
+    join(kitDirectory, relativePath)
+  );
+  return relativePath;
 }
 
 function ownVersion(): string {

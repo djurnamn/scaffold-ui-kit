@@ -21,6 +21,65 @@ describe('validateConfiguration', () => {
     expect(validateConfiguration(validConfiguration)).toEqual([]);
   });
 
+  it('accepts an add block with shared layers and notes', () => {
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        add: {
+          shared: [
+            { source: 'src/scripts', specifier: 'my-ui-kit/scripts' },
+            {
+              source: 'src/styles',
+              destination: 'theme/styles',
+              exclude: ['index.scss', 'generated/bundle.css'],
+            },
+            { source: 'src/kit-config.scss' },
+          ],
+          notes: ['Add the output directory to your sass loadPaths.'],
+        },
+      })
+    ).toEqual([]);
+    expect(validateConfiguration({ ...validConfiguration, add: {} })).toEqual(
+      []
+    );
+  });
+
+  it('rejects a malformed add block', () => {
+    expect(validateConfiguration({ ...validConfiguration, add: [] })).toEqual([
+      "'add' must be an object with optional 'shared' and 'notes'",
+    ]);
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        add: { shared: 'src/scripts', notes: 'one' },
+      })
+    ).toEqual([
+      "'add.shared' must be an array",
+      "'add.notes' must be an array of strings",
+    ]);
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        add: {
+          shared: [
+            {},
+            { source: '../outside' },
+            { source: '/absolute' },
+            { source: 'src/scripts', destination: '', specifier: 3 },
+            { source: 'src/styles', exclude: ['../escape'] },
+          ],
+        },
+      })
+    ).toEqual([
+      "'add.shared[0]'.source is required",
+      "'add.shared[1]'.source must be a relative path that stays inside its directory",
+      "'add.shared[2]'.source must be a relative path that stays inside its directory",
+      "'add.shared[3]'.destination must be a non-empty string",
+      "'add.shared[3]'.specifier must be a non-empty string",
+      "'add.shared[4]'.exclude must be an array of relative paths inside the source",
+    ]);
+  });
+
   it('accepts optional strategies and separators', () => {
     expect(
       validateConfiguration({
@@ -29,6 +88,37 @@ describe('validateConfiguration', () => {
         scriptingStrategy: 'in-file',
         bemElementSeparator: '-',
         bemModifierSeparator: '_',
+      })
+    ).toEqual([]);
+  });
+
+  it('accepts stylesheetLink alongside the separate-file strategy', () => {
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        stylingStrategy: 'separate-file',
+        stylesheetLink: 'none',
+      })
+    ).toEqual([]);
+    expect(
+      validateConfiguration({ ...validConfiguration, stylesheetLink: 'component' })
+    ).toEqual([]);
+  });
+
+  it('accepts a stylingLayer name or object', () => {
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        stylingLayer: 'kit.components',
+      })
+    ).toEqual([]);
+    expect(
+      validateConfiguration({
+        ...validConfiguration,
+        stylingLayer: {
+          name: 'kit.components',
+          order: ['kit.reset', 'kit.components'],
+        },
       })
     ).toEqual([]);
   });
@@ -97,6 +187,18 @@ describe('validateConfiguration', () => {
     ).toEqual(["'bemMode' must be one of literal, runtime"]);
   });
 
+  it('accepts both svelteMode values, rejecting others', () => {
+    expect(
+      validateConfiguration({ ...validConfiguration, svelteMode: 'legacy' })
+    ).toEqual([]);
+    expect(
+      validateConfiguration({ ...validConfiguration, svelteMode: 'runes' })
+    ).toEqual([]);
+    expect(
+      validateConfiguration({ ...validConfiguration, svelteMode: 'classic' })
+    ).toEqual(["'svelteMode' must be one of legacy, runes"]);
+  });
+
   it('accepts an empty styling list and a missing one', () => {
     expect(
       validateConfiguration({ ...validConfiguration, styling: [] })
@@ -118,6 +220,17 @@ describe('validateConfiguration', () => {
     [{ ...validConfiguration, tailwindConvertStyles: 'yes' }, 'tailwindConvertStyles'],
     [{ ...validConfiguration, bemElementSeparator: 7 }, 'bemElementSeparator'],
     [{ ...validConfiguration, bemImportSource: 9 }, 'bemImportSource'],
+    [{ ...validConfiguration, stylesheetLink: 'never' }, 'stylesheetLink'],
+    [
+      { ...validConfiguration, stylesheetLink: 'none' },
+      "requires 'stylingStrategy' of 'separate-file'",
+    ],
+    [{ ...validConfiguration, stylingLayer: '' }, 'stylingLayer'],
+    [{ ...validConfiguration, stylingLayer: { order: ['a'] } }, 'stylingLayer.name'],
+    [
+      { ...validConfiguration, stylingLayer: { name: 'kit', order: 'kit.base' } },
+      'stylingLayer.order',
+    ],
   ])('rejects %j', (value, messagePart) => {
     const problems = validateConfiguration(value);
     expect(problems.length).toBeGreaterThan(0);
