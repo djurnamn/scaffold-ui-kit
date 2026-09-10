@@ -315,10 +315,10 @@ function relativeImportsOf(filePath) {
 }
 
 /**
- * Every module specifier a built file imports: `import`/`export … from`
+ * Every module specifier a built file imports: `import`/`export ... from`
  * statements, side-effect imports, dynamic imports, and a stylesheet's
  * `@use`, `@forward` and `@import`. Statements are matched at line start,
- * so a `from '…'` inside a comment, a string or a type (`'from' | 'to'`)
+ * so a `from '...'` inside a comment, a string or a type (`'from' | 'to'`)
  * is not an import.
  */
 function importSpecifiersOf(filePath) {

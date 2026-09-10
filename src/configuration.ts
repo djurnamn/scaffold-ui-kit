@@ -37,7 +37,7 @@ const stylesheetLinks = ['component', 'none'];
 /**
  * A file or directory the consumer CLI copies beside the components, once:
  * a layer the built components import that is not itself a component - a
- * scripts module, a sass helper directory, a theme seam.
+ * scripts module, a sass helper directory, a theme entry point.
  */
 export interface SharedLayer {
   /** The file or directory to copy, relative to the kit root. */
