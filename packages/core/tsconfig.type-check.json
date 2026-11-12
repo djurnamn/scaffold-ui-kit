@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "es2022",
+    "moduleResolution": "bundler"
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "assets/components/**/*",
+    "assets/components-tailwind/**/*"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

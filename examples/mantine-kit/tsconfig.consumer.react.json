@@ -1,0 +1,12 @@
+{
+  "extends": "@scaffold-ui-kit/testing/tsconfig.consumer.json",
+  "include": [
+    "dist/react/**/*",
+    "tests/consumer-react.tsx"
+  ],
+  "compilerOptions": {
+    "types": [
+      "vite/client"
+    ]
+  }
+}

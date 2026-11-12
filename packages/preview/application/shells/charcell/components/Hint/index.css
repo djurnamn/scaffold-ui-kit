@@ -1,0 +1,16 @@
+@layer charcell.components {
+  /* The span a hint wraps around its control: the control's own box, so it
+     sits in a bar or a field as the control alone would. */
+  .Hint {
+    display: inline-flex;
+    max-width: 100%;
+    min-width: 0;
+  }
+  /* Standing in for a disabled control, the span shows where focus is. */
+  .Hint--focusable {
+    outline: none;
+  }
+  .Hint--focusable:focus-visible {
+    outline: 1px solid var(--charcell-foreground);
+  }
+}

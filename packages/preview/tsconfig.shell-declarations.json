@@ -1,0 +1,12 @@
+{
+  "// purpose": "Emit the type declarations of the charcell shell's entry (application/shells/charcell/index.tsx), which ships as source, so a kit's shell module type-checks against `@scaffold-ui-kit/preview/shells/charcell`. The package's exports point its `types` condition at the emitted file. Run by `build` after tsc.",
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "rootDir": ".",
+    "outDir": "./dist/declarations"
+  },
+  "include": ["application/shells/charcell/index.tsx"]
+}

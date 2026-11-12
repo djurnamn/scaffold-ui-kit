@@ -1,0 +1,14 @@
+{
+  "name": "fixture-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./react": "./dist/react/index.ts",
+    "./react/*": "./dist/react/*.tsx",
+    "./vue": "./dist/vue/index.ts",
+    "./vue/*": "./dist/vue/*",
+    "./svelte": "./dist/svelte/index.ts",
+    "./svelte/*": "./dist/svelte/*"
+  }
+}

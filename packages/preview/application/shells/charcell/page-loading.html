@@ -1,0 +1,57 @@
+<!-- What the host page shows under this shell until the shell mounts over
+     it: the shell's page module gives this file as the page's root. -->
+<style>
+  /* Nothing at all for the first 300ms, so a quick load has no flash, and
+     then a note in the middle of the page, its dots counting up. Spaces
+     hold the dots' place, so the word stays put. The note is set as the
+     shell's text is, in charcell's face at its size on a cell one character
+     wide and two tall, and sits on a whole cell counted from the page's
+     corner, the one nearest the middle, so it stands where the shell's own
+     text will. The page's head declares the face and preloads its font. */
+  .PreviewPageLoading {
+    position: fixed;
+    inset: 0;
+    font:
+      0.875rem/2ch 'Charcell Overpass Mono',
+      ui-monospace,
+      monospace;
+    color: #808080;
+  }
+  .PreviewPageLoading::after {
+    content: 'loading';
+    position: absolute;
+    left: round(down, calc((100% - 10ch) / 2), 1ch);
+    top: round(down, calc((100% - 2ch) / 2), 2ch);
+    white-space: pre;
+    visibility: hidden;
+    animation:
+      PreviewPageLoading-show 0s 300ms forwards,
+      PreviewPageLoading-dots 1.2s 300ms steps(1, end) infinite;
+  }
+  @keyframes PreviewPageLoading-show {
+    to {
+      visibility: visible;
+    }
+  }
+  @keyframes PreviewPageLoading-dots {
+    0% {
+      content: 'loading\00a0\00a0\00a0';
+    }
+    25% {
+      content: 'loading.\00a0\00a0';
+    }
+    50% {
+      content: 'loading..\00a0';
+    }
+    75%,
+    100% {
+      content: 'loading...';
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .PreviewPageLoading::after {
+      animation: PreviewPageLoading-show 0s 300ms forwards;
+    }
+  }
+</style>
+<div class="PreviewPageLoading" role="status" aria-label="loading"></div>

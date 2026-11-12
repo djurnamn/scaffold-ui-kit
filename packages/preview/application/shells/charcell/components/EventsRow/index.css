@@ -1,0 +1,42 @@
+@layer charcell.components {
+  /* The events row fills its panel of the stage's split. */
+  .EventsRow {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+  /* The log: when, which pane, which event and what it was called with, in
+     four columns, a row each. The Frame is flush, so the log keeps a cell
+     from its ring. */
+  .EventsRow__log {
+    margin: 0;
+    padding: 0 1ch;
+    list-style: none;
+    display: grid;
+    grid-template-columns: max-content max-content max-content minmax(0, 1fr);
+    column-gap: 2ch;
+  }
+  .EventsRow__event {
+    display: contents;
+  }
+  .EventsRow__time,
+  .EventsRow__target {
+    color: var(--charcell-mid);
+  }
+  .EventsRow__name {
+    font-weight: 700;
+  }
+  .EventsRow__payload {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .EventsRow__note {
+    margin: 0;
+    padding: 0 1ch;
+    color: var(--charcell-mid);
+  }
+}

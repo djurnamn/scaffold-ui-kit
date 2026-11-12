@@ -1,0 +1,11 @@
+@layer charcell.components {
+  /* A row tall, the heading a cell in and the controls at the end. */
+  .HeadingRow {
+    padding: 0 1ch;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2ch;
+    min-height: var(--charcell-row);
+  }
+}

@@ -1,0 +1,7 @@
+@layer charcell.components {
+  /* The panes' state sits at the status bar's tone; a failure steps up to
+     the foreground, so it is the one word that stands out. */
+  .PaneStatus--failed {
+    color: var(--charcell-foreground);
+  }
+}

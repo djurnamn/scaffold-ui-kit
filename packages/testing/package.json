@@ -1,0 +1,113 @@
+{
+  "name": "@scaffold-ui-kit/testing",
+  "version": "2.3.0",
+  "description": "Testing for kits built with scaffold-ui-kit: render a component in React, Vue and Svelte on the server and compare the markup, type-check the built targets as a strict consumer would, and sweep the preview's scenarios in a browser with axe and the keyboard",
+  "type": "module",
+  "exports": {
+    "./render": {
+      "types": "./dist/render/index.d.ts",
+      "default": "./dist/render/index.js"
+    },
+    "./parity": {
+      "types": "./dist/parity/index.d.ts",
+      "default": "./dist/parity/index.js"
+    },
+    "./typecheck": {
+      "types": "./dist/typecheck/index.d.ts",
+      "default": "./dist/typecheck/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "default": "./dist/browser/index.js"
+    },
+    "./tsconfig.consumer.json": "./tsconfig.consumer.json"
+  },
+  "files": [
+    "dist",
+    "tsconfig.consumer.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rimraf dist && tsc && cp src/render/svelte-host.svelte dist/render/",
+    "clean": "rimraf dist",
+    "test": "vitest run && NODE_ENV=production vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test --config tests/browser/playwright.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.type-check.json"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "peerDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@scaffold-ui-kit/preview": "^2.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "svelte": "^5.29.0",
+    "svelte-check": "^4.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@axe-core/playwright": {
+      "optional": true
+    },
+    "@scaffold-ui-kit/preview": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "svelte": {
+      "optional": true
+    },
+    "svelte-check": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "1.62.1",
+    "@scaffold-ui-kit/preview": "^2.3.0",
+    "@types/node": "^20.17.46",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "rimraf": "^5.0.5",
+    "svelte": "^5.56.3",
+    "svelte-check": "^4.7.6",
+    "typescript": "^5.3.3",
+    "vitest": "^1.6.1",
+    "vue": "^3.5.44",
+    "vue-tsc": "^3.3.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djurnamn/scaffold-ui-kit.git",
+    "directory": "packages/testing"
+  },
+  "keywords": [
+    "scaffold-ui-kit",
+    "ui-kit",
+    "component-library",
+    "testing",
+    "accessibility",
+    "react",
+    "vue",
+    "svelte"
+  ],
+  "author": "Björn Djurnamn <bjorn@djurnamn.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/djurnamn/scaffold-ui-kit/issues"
+  },
+  "homepage": "https://github.com/djurnamn/scaffold-ui-kit/tree/main/packages/testing#readme"
+}

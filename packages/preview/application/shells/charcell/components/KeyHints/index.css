@@ -1,0 +1,27 @@
+@layer charcell.components {
+  /* The hint and the list's button, a band's items apart. */
+  .KeyHints {
+    display: flex;
+    align-items: center;
+    gap: 2ch;
+  }
+  .KeyHints__hint {
+    color: var(--charcell-mid);
+  }
+  /* The list: the keys in one column, what they do in the next. */
+  .KeyHints__list {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 2ch;
+  }
+  .KeyHints__entry {
+    display: contents;
+  }
+  .KeyHints__key {
+    font-weight: 700;
+  }
+  .KeyHints__meaning {
+    margin: 0;
+  }
+}

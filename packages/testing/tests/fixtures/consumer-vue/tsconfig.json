@@ -1,0 +1,5 @@
+{
+  "extends": "../../../tsconfig.consumer.json",
+  "compilerOptions": { "types": [] },
+  "include": ["DataAttributes.vue", "Field.vue"]
+}

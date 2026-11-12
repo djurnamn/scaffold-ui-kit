@@ -1,0 +1,126 @@
+{
+  "name": "@scaffold-ui-kit/preview",
+  "version": "2.3.0",
+  "description": "Preview for scaffold-ui-kit kits: a Vite host with native per-framework preview iframes, a composable slot editor, scenarios, and live regeneration - configured through the preview block of the kit's configuration.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/lib/types.d.ts",
+      "import": "./dist/lib/types.js"
+    },
+    "./options": {
+      "types": "./dist/options.d.ts",
+      "import": "./dist/options.js"
+    },
+    "./views": {
+      "types": "./dist/views.d.ts",
+      "import": "./dist/views.js"
+    },
+    "./shell": {
+      "types": "./dist/shell.d.ts",
+      "default": "./dist/shell.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "default": "./dist/react.js"
+    },
+    "./shells/charcell": {
+      "types": "./dist/declarations/application/shells/charcell/index.d.ts",
+      "default": "./application/shells/charcell/index.tsx"
+    },
+    "./shells/charcell/page": {
+      "types": "./dist/shells/charcell/page.d.ts",
+      "default": "./dist/shells/charcell/page.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "default": "./dist/testing.js"
+    }
+  },
+  "files": [
+    "dist",
+    "application",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "scaffold-ui-kit-preview": "./dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc && tsc -p tsconfig.shell-declarations.json",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:e2e": "playwright test --config tests/browser/playwright.config.ts",
+    "test:package": "playwright test --config tests/browser/playwright.package.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.type-check.json && tsc -p tsconfig.app.json",
+    "typecheck:app": "tsc -p tsconfig.app.json"
+  },
+  "dependencies": {
+    "@js-template-engine/core": "^2.3.0",
+    "@js-template-engine/extension-bem": "^2.3.0",
+    "@js-template-engine/extension-react": "^2.3.0",
+    "@js-template-engine/extension-tailwind": "^2.3.0",
+    "@js-template-engine/types": "^2.3.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@vitejs/plugin-react": "^5.2.0",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "commander": "^12.1.0",
+    "jiti": "^2.4.2",
+    "markdown-to-jsx": "^9.10.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "scaffold-ui-kit": "^2.3.0",
+    "svelte": "^5.56.3",
+    "typescript": "^5.4.5",
+    "vite": "^7.3.5",
+    "vue": "^3.5.38"
+  },
+  "peerDependencies": {
+    "@zag-js/react": "^1.44.0",
+    "charcell": "^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@zag-js/react": {
+      "optional": true
+    },
+    "charcell": {
+      "optional": true
+    }
+  },
+  "author": "Björn Djurnamn <bjorn@djurnamn.co>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@zag-js/react": "^1.44.0",
+    "charcell": "^0.1.0",
+    "happy-dom": "^20.14.5",
+    "rimraf": "^5.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djurnamn/scaffold-ui-kit.git",
+    "directory": "packages/preview"
+  },
+  "keywords": [
+    "scaffold-ui-kit",
+    "ui-kit",
+    "component-library",
+    "preview"
+  ],
+  "bugs": {
+    "url": "https://github.com/djurnamn/scaffold-ui-kit/issues"
+  },
+  "homepage": "https://github.com/djurnamn/scaffold-ui-kit/tree/main/packages/preview#readme"
+}

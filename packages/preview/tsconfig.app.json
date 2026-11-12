@@ -1,0 +1,65 @@
+{
+  "// purpose": "Type-check the preview app (Vite strips types), with its build-time aliases mapped to the fallbacks and typed stubs in application/. Svelte and Vue single-file components are left to their own tooling. Run by typecheck after the source and tests, and alone by typecheck:app.",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "jsx": "react-jsx",
+    "types": [
+      "vite/client"
+    ],
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@preview-configuration": [
+        "./application/types/preview-configuration.d.ts"
+      ],
+      "@preview-views": [
+        "./application/lib/no-views.ts"
+      ],
+      "@preview-shell": [
+        "./application/types/preview-shell.d.ts"
+      ],
+      "@preview-setup/*": [
+        "./application/lib/no-setup.ts"
+      ],
+      "@preview-html-stylesheets": [
+        "./application/lib/no-setup.ts"
+      ],
+      "@preview-code-block": [
+        "./application/lib/no-code-block.ts"
+      ],
+      "@preview-generated/manifest.json": [
+        "./application/types/manifest.d.ts"
+      ],
+      "@preview-generated/react/registry": [
+        "./application/types/react-registry.d.ts"
+      ],
+      "@preview-generated/scratch/react": [
+        "./application/types/react-registry.d.ts"
+      ],
+      "@preview-generated/vue/registry": [
+        "./application/types/vue-registry.d.ts"
+      ],
+      "@preview-generated/scratch/vue": [
+        "./application/types/vue-registry.d.ts"
+      ],
+      "react": [
+        "./node_modules/@types/react"
+      ],
+      "react/*": [
+        "./node_modules/@types/react/*"
+      ]
+    }
+  },
+  "include": [
+    "application/**/*.ts",
+    "application/**/*.tsx"
+  ]
+}

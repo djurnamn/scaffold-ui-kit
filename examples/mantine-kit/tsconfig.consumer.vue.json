@@ -1,0 +1,17 @@
+{
+  "extends": "@scaffold-ui-kit/testing/tsconfig.consumer.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "types": [
+      "vite/client"
+    ]
+  },
+  "vueCompilerOptions": {
+    "dataAttributes": [
+      "data-*"
+    ]
+  },
+  "include": [
+    "dist/vue/**/*"
+  ]
+}

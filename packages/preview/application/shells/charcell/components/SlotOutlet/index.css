@@ -1,0 +1,7 @@
+@layer charcell.components {
+  /* A slot's outlet has no box of its own: what the kit mounts in it
+     sits in the bar's zone beside the option controls. */
+  .SlotOutlet {
+    display: contents;
+  }
+}

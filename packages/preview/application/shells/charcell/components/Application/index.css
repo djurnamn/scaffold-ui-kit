@@ -1,0 +1,37 @@
+@layer charcell.components {
+  /* The terminal screen: the shell is letterboxed to whole cells (round() snaps
+     both axes; older browsers fall back to the full viewport). Its ring is a
+     quiet charcell Frame, so the bars aren't edge to edge;
+     the Frame fills the screen as its one grid cell. The screen sits centered
+     in what is left over, by margins rounded down to whole pixels, so every
+     cell still starts on a whole pixel. */
+  .Application {
+    width: 100vw;
+    height: 100vh;
+    width: round(down, 100vw, 1ch);
+    height: round(down, 100vh, var(--charcell-row));
+    margin-left: round(down, calc((100vw - round(down, 100vw, 1ch)) / 2), 1px);
+    margin-top: round(down, calc((100vh - round(down, 100vh, var(--charcell-row))) / 2), 1px);
+    overflow: hidden;
+    display: grid;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  }
+  .Application__layout {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  /* The stage, a cell in from the ring at its sides; beside the navigation, the
+     split's handle is the cell at its start. */
+  .Application__main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 0 1ch;
+  }
+  .Application__main--beside {
+    padding-left: 0;
+  }
+}

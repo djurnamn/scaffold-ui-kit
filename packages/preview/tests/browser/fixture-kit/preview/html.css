@@ -1,0 +1,5 @@
+/* The fixture kit's stylesheet for the html pane: a mark the html pane test
+   reads, which no framework pane loads. */
+.FixtureTag {
+  outline: 3px dotted rgb(1, 2, 3);
+}

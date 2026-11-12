@@ -1,0 +1,117 @@
+{
+  "name": "fixture-kit",
+  "targets": [
+    "react",
+    "vue",
+    "svelte",
+    "html"
+  ],
+  "styling": [],
+  "preview": {
+    "shell": "@scaffold-ui-kit/preview/shells/charcell",
+    "sources": [
+      {
+        "id": "kit",
+        "label": "Components",
+        "order": 0,
+        "moduleBase": "fixture-kit",
+        "templatesDirectory": "src/components",
+        "manualModule": "preview/manual.ts",
+        "storiesDirectory": "preview/stories"
+      }
+    ],
+    "themes": [
+      {
+        "id": "light",
+        "label": "Light",
+        "css": "themes/light.css"
+      }
+    ],
+    "canvas": {
+      "namePrefix": "fixture"
+    },
+    "options": [
+      {
+        "id": "mode",
+        "label": "mode",
+        "values": [
+          {
+            "value": "light",
+            "label": "light"
+          },
+          {
+            "value": "dark",
+            "label": "dark"
+          }
+        ],
+        "default": "light",
+        "scope": "global",
+        "apply": {
+          "type": "root-attribute",
+          "attribute": "data-fixture-mode"
+        }
+      },
+      {
+        "id": "surface",
+        "label": "surface",
+        "values": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "1",
+        "group": "context",
+        "scope": "global",
+        "apply": {
+          "type": "root-attribute",
+          "attribute": "data-fixture-surface"
+        }
+      },
+      {
+        "id": "motion",
+        "label": "motion",
+        "title": "the kit's transitions",
+        "default": true,
+        "group": "kit",
+        "scope": "global",
+        "apply": {
+          "type": "root-attribute",
+          "attribute": "data-fixture-motion"
+        }
+      },
+      {
+        "id": "padded",
+        "label": "padded",
+        "default": true,
+        "scope": "story",
+        "apply": {
+          "type": "class",
+          "on": "body",
+          "className": "is-padded"
+        }
+      },
+      {
+        "id": "outline",
+        "label": "outline",
+        "default": false,
+        "group": "canvas",
+        "scope": "global",
+        "apply": {
+          "type": "class",
+          "on": "body",
+          "className": "is-outlined"
+        }
+      }
+    ],
+    "viewsModule": "preview/views.tsx",
+    "htmlStylesheets": [
+      "preview/html.css"
+    ],
+    "port": 6210
+  }
+}

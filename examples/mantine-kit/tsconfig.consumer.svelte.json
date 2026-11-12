@@ -1,0 +1,11 @@
+{
+  "extends": "@scaffold-ui-kit/testing/tsconfig.consumer.json",
+  "include": [
+    "dist/svelte/**/*"
+  ],
+  "compilerOptions": {
+    "types": [
+      "vite/client"
+    ]
+  }
+}

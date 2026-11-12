@@ -1,0 +1,42 @@
+{
+  "name": "@scaffold-ui-kit/add",
+  "version": "2.3.0",
+  "description": "The consumer CLI behind every kit built by scaffold-ui-kit: copies a kit's components into your project as you place and own them, and keeps the copies up to date",
+  "type": "module",
+  "main": "src/add.mjs",
+  "types": "src/add.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/add.d.ts",
+      "import": "./src/add.mjs"
+    }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "echo '@scaffold-ui-kit/add: no build required'"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djurnamn/scaffold-ui-kit.git",
+    "directory": "packages/add"
+  },
+  "keywords": [
+    "scaffold-ui-kit",
+    "ui-kit",
+    "component-library",
+    "cli"
+  ],
+  "author": "Björn Djurnamn <bjorn@djurnamn.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/djurnamn/scaffold-ui-kit/issues"
+  },
+  "homepage": "https://github.com/djurnamn/scaffold-ui-kit/tree/main/packages/add#readme"
+}

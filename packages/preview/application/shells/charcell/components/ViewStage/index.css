@@ -1,0 +1,9 @@
+@layer charcell.components {
+  /* A custom view's one pane, its Frame filling the stage's place as the
+     grid's panes do (charcell's `fill`). */
+  .ViewStage {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+  }
+}

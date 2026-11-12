@@ -1,0 +1,6 @@
+@layer charcell.components {
+  /* The info button's `i`, in italics, as an information sign is set. */
+  .Description__button {
+    font-style: italic;
+  }
+}

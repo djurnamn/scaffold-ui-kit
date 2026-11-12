@@ -1,0 +1,16 @@
+@layer charcell.components {
+  /* The body under the prompt bar, which the split fills. */
+  .NavigationSplit {
+    display: grid;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+    min-height: 0;
+  }
+  /* The navigation's panel: the navigation, then the navigation's line, a column
+     down the panel's height. */
+  .NavigationSplit__navigation {
+    flex: 1 1 auto;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+  }
+}

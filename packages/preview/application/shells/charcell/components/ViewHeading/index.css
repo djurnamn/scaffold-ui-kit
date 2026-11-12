@@ -1,0 +1,13 @@
+@layer charcell.components {
+  /* A row tall, its name bold. The row it sits on places it a cell in from
+     the row's start. charcell's reset flattens headings, so the weight is
+     stated here. */
+  .ViewHeading {
+    margin: 0;
+    min-height: var(--charcell-row);
+    display: flex;
+    align-items: center;
+    font: inherit;
+    font-weight: 700;
+  }
+}

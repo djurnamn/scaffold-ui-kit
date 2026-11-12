@@ -1,0 +1,48 @@
+@layer charcell.components {
+  /* The editor panel's nodes, props and slots are quiet Frames: a window's
+     name is its Frame title with its action in the legend, the drop target's
+     ring goes foreground (`active`), and the lifted clone is raised (a double
+     right and bottom border). Rows carry the spacing: adjacent rings sit a
+     full row apart by their own ring geometry. */
+  .EditorPanel__row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: var(--charcell-row);
+    gap: 1ch;
+    row-gap: 0;
+  }
+  .EditorPanel__label {
+    color: var(--charcell-mid);
+  }
+  /* The remove control's own box, pushed to the row's end. */
+  .EditorPanel__remove {
+    display: flex;
+    margin-left: auto;
+  }
+  /* A locked raw or scoped fill, or the content beside the root: on one
+     line, cut to the row. */
+  .EditorPanel__opaque {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  /* A props window's controls: the names in one column, the controls in the
+     next, a row each. */
+  .EditorPanel__controls {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 2ch;
+    row-gap: 0;
+  }
+  .EditorPanel__add {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    justify-content: flex-end;
+    min-height: var(--charcell-row);
+  }
+}

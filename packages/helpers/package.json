@@ -1,0 +1,79 @@
+{
+  "name": "@scaffold-ui-kit/helpers",
+  "version": "2.3.0",
+  "description": "Helpers for kits built with scaffold-ui-kit: style helpers for templates, the runtime a kit's hand-written components call on every target, and fixes for components built on Zag machines",
+  "type": "module",
+  "exports": {
+    "./template": {
+      "types": "./dist/template/index.d.ts",
+      "default": "./dist/template/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/index.d.ts",
+      "default": "./dist/runtime/index.js"
+    },
+    "./runtime/svelte": {
+      "types": "./dist/runtime/svelte/index.d.ts",
+      "default": "./dist/runtime/svelte/index.js"
+    },
+    "./zag": {
+      "types": "./dist/zag/index.d.ts",
+      "default": "./dist/zag/index.js"
+    },
+    "./zag/svelte": {
+      "types": "./dist/zag/svelte/index.d.ts",
+      "svelte": "./dist/zag/svelte/index.js",
+      "default": "./dist/zag/svelte/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "peerDependencies": {
+    "svelte": "^5.29.0"
+  },
+  "peerDependenciesMeta": {
+    "svelte": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "happy-dom": "^20.14.5",
+    "rimraf": "^5.0.5",
+    "svelte": "^5.56.3",
+    "typescript": "^5.3.3",
+    "vitest": "^1.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djurnamn/scaffold-ui-kit.git",
+    "directory": "packages/helpers"
+  },
+  "keywords": [
+    "scaffold-ui-kit",
+    "ui-kit",
+    "component-library",
+    "sass",
+    "svelte",
+    "zag"
+  ],
+  "author": "Björn Djurnamn <bjorn@djurnamn.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/djurnamn/scaffold-ui-kit/issues"
+  },
+  "homepage": "https://github.com/djurnamn/scaffold-ui-kit/tree/main/packages/helpers#readme"
+}

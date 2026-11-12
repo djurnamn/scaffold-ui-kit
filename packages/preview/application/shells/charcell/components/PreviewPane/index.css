@@ -1,0 +1,127 @@
+@layer charcell.components {
+  /* One pane: the element the controller mounts the iframe
+     in, inside a charcell Frame that fills the pane's place in the row. It fills
+     the Frame's body, which is not a flex container, so the iframe's own flex
+     sizing has a box to fill. */
+  .PreviewPane {
+    position: relative;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  /* While its iframe loads, hidden by the controller until it shows its
+     content, the pane says so in the mid gray, its dots counting up - after
+     300ms, so a quick load shows nothing but the ground. The note sits on a
+     whole cell counted from the pane's corner, the one nearest the middle. */
+  .PreviewPane:has(> iframe:not([data-preview-shown]))::after {
+    content: 'loading';
+    position: absolute;
+    left: round(down, calc((100% - 10ch) / 2), 1ch);
+    top: round(
+      down,
+      calc((100% - var(--charcell-row)) / 2),
+      var(--charcell-row)
+    );
+    white-space: pre;
+    color: var(--charcell-mid);
+    visibility: hidden;
+    animation:
+      PreviewPane-loading 0s 300ms forwards,
+      PreviewPane-dots 1.2s 300ms steps(1, end) infinite;
+  }
+  @keyframes PreviewPane-loading {
+    to {
+      visibility: visible;
+    }
+  }
+  /* The dots count up, one a step; spaces hold the dots' place, so the
+     word stays put in the monospace face. */
+  @keyframes PreviewPane-dots {
+    0% {
+      content: 'loading\00a0\00a0\00a0';
+    }
+    25% {
+      content: 'loading.\00a0\00a0';
+    }
+    50% {
+      content: 'loading..\00a0';
+    }
+    75%,
+    100% {
+      content: 'loading...';
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .PreviewPane:has(> iframe:not([data-preview-shown]))::after {
+      animation: PreviewPane-loading 0s 300ms forwards;
+    }
+  }
+  /* The controller's iframe, the pane's one child: based on the height its
+     story reports (the iframe's own 150px until it does), so a row measuring
+     its content fits the story, and growing to fill a taller pane or
+     shrinking with a shorter one. */
+  .PreviewPane > iframe {
+    display: block;
+    flex: 1 1 var(--preview-pane-content, 150px);
+    min-height: 0;
+    width: 100%;
+    border: 0;
+  }
+  /* At a width the reader picked, inside a scroll area: the iframe is that
+     wide and as tall as its story, centered while the pane is wider. The
+     scroll area's bars take rows and columns of their own, so a bar never
+     covers the story, and a row sized to its content makes room for one. */
+  .PreviewPane--fixed {
+    display: block;
+    height: auto;
+  }
+  .PreviewPane--fixed > iframe {
+    width: var(--preview-pane-width);
+    height: var(--preview-pane-content, 150px);
+    margin-inline: auto;
+  }
+  /* Why the html pane has no html, over the pane's own note in the kit's
+     canvas: in the mid gray on the shell's ground, centered, as the
+     loading note and the code pane's reason are. */
+  .PreviewPane__note {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0 1ch;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: var(--charcell-mid);
+    background: var(--charcell-background);
+  }
+  /* What the Frame fills, and takes the pane's whole width from; the cell,
+     nothing to see, is the width the labels are cut against. */
+  .PreviewPane__frame {
+    position: relative;
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  }
+  .PreviewPane__cell {
+    position: absolute;
+    width: 1ch;
+    visibility: hidden;
+  }
+  /* The actions at the end of the top row, side by side: each button's own
+     padding is the cells between them. */
+  .PreviewPane__actions {
+    display: flex;
+  }
+  /* How many warnings the html pane's markup has, first in its legend at
+     the foreground, so a part left out at rest is not mistaken for one the
+     story does not show; the count opens the warnings (HtmlWarnings). */
+  .PreviewPane__warnings {
+    white-space: nowrap;
+    color: var(--charcell-foreground);
+  }
+}

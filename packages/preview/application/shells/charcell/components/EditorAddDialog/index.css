@@ -1,0 +1,9 @@
+@layer charcell.components {
+  /* The add dialog. Its root is the positioner, the
+     shell's own element: it takes charcell's popover layer, as charcell's own
+     Popover does. */
+  .EditorAddDialog {
+    --z-index: var(--charcell-layer-popover);
+    z-index: var(--charcell-layer-popover);
+  }
+}

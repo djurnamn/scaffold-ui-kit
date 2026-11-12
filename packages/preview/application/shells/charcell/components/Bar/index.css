@@ -1,0 +1,68 @@
+@layer charcell.components {
+  /* The bands: a content row and a rule row, the stroke centered in
+     its own row and the text on the other. The rule is `faint`, a separator.
+     When the zones do not fit on one row the content wraps onto more, a whole
+     row at a time, so no control is ever cut off; the rule row stays where it
+     was against the content, under it in a header and over it in a status
+     bar. */
+  .Bar {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .Bar--status {
+    color: var(--charcell-mid);
+  }
+  /* An unruled band's empty rule row. */
+  .Bar__space {
+    height: var(--charcell-row);
+  }
+  /* The two zones on one row while they fit: the start packed from the
+     start, the end against the end. Crowded,
+     the zones wrap, the end zone keeping to the end of its row, and a zone
+     that does not fit a row by itself wraps its own items. Items sit a row
+     tall and rows stack with no gap, so every line stays on the cell grid. */
+  .Bar__content {
+    padding: 0 1ch;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 2ch;
+    row-gap: 0;
+    min-width: 0;
+    min-height: var(--charcell-row);
+    white-space: nowrap;
+  }
+  .Bar--flush .Bar__content {
+    padding: 0;
+  }
+  .Bar__start,
+  .Bar__end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 2ch;
+    row-gap: 0;
+    min-width: 0;
+    min-height: var(--charcell-row);
+  }
+  .Bar__end {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+  /* A bar's start zone cluster: the lead and a picker sit a cell apart, tighter
+     than the 2ch the band's zones space their items by. */
+  .Bar__cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1ch;
+    row-gap: 0;
+    min-width: 0;
+  }
+  /* The bold word leading a bar - the prompt, the selected component. charcell's
+     reset flattens <strong>, so the weight is stated here. */
+  .Bar__lead {
+    font-weight: 700;
+  }
+}

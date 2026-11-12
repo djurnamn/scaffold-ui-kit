@@ -1,0 +1,105 @@
+// The preview controller and what a shell reads from it: the catalog, the
+// state, the editor's tree types and operations, the regeneration transport, and the
+// query parameters it keeps its state in.
+// Browser-safe: no node imports.
+
+export {
+  createPreviewController,
+  PREVIEW_FRAME_SHOWN_ATTRIBUTE,
+  REGENERATION_DEBOUNCE_MILLISECONDS,
+  SCRATCH_STORY_ID,
+  type PreviewController,
+  type PreviewControllerOptions,
+  type PreviewEditorState,
+  type PreviewEvent,
+  type PreviewFrameReadiness,
+  type PreviewFrameTarget,
+  type PreviewHtmlSource,
+  type PreviewInsertTarget,
+  type PreviewNodeRequest,
+  type PreviewOptionDescriptor,
+  type PreviewRegenerationStatus,
+  type PreviewSelection,
+  type PreviewSortableDrop,
+  type PreviewCode,
+  type PreviewState,
+  type PreviewTimers,
+} from './create-preview-controller.js';
+export { printStorySource, type PreviewTargetCode } from './source.js';
+export {
+  createFetchHtmlSourceTransport,
+  createStaticHtmlSourceLoader,
+  HTML_SOURCE_DIRECTORY,
+  HTML_SOURCE_ENDPOINT,
+  type HtmlSourceRequest,
+  type HtmlSourceResponse,
+  type HtmlSourceTransport,
+  type ScenarioHtmlSourceLoader,
+} from './html-source.js';
+export { previewStore, type PreviewStore } from './store.js';
+export type { PreviewPaneWidth } from '../lib/types.js';
+export {
+  catalogFromManifest,
+  DEFAULT_PANE_WIDTHS,
+  defaultScenarioId,
+  nodeAddSlots,
+  nodeSlots,
+  scenarioChoices,
+  storyFrameKey,
+  type CatalogManifest,
+  type PreviewBinding,
+  type PreviewCatalog,
+  type PreviewCatalogView,
+  type PreviewComponent,
+  type PreviewImport,
+  type PreviewLanding,
+  type PreviewNavigationNode,
+  type PreviewPropType,
+  type PreviewScenario,
+  type PreviewSource,
+  type PreviewStoryReference,
+  type ScenarioChoice,
+} from './catalog.js';
+export {
+  acceptsPropValue,
+  changedProps,
+  isPaneWidth,
+  MAXIMUM_PANE_WIDTH,
+  parseTargets,
+  parseOptionValue,
+  parsePaneWidth,
+  parseProps,
+  readUrlState,
+  storageKey,
+  URL_PARAMETER,
+  writeUrlState,
+  type PreviewStorage,
+  type UrlState,
+  type UrlStateToWrite,
+} from './persistence.js';
+export {
+  createFetchRegenerationTransport,
+  REGENERATION_ENDPOINT,
+  type RegenerationPayload,
+  type RegenerationTransport,
+} from './regeneration.js';
+export {
+  childPath,
+  cleanRecord,
+  DEFAULT_SLOT,
+  HTML_TAGS,
+  isContainer,
+  nodeAt,
+  pathKey,
+  seedNode,
+  type AroundFill,
+  type ContainerNode,
+  type DropTarget,
+  type EditorNode,
+  type EditorState,
+  type NodePath,
+  type OpaqueFill,
+  type SortableListAddress,
+  type Step,
+  type StoryAround,
+} from './editor-tree.js';

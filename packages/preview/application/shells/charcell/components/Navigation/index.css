@@ -1,0 +1,13 @@
+@layer charcell.components {
+  /* The navigation: fills its panel of the navigation split, its
+     charcell ScrollArea filling it in turn, and ends a row past the tree. */
+  .Navigation {
+    flex: 1 1 auto;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+  }
+  .Navigation__content {
+    padding-bottom: var(--charcell-row);
+  }
+}

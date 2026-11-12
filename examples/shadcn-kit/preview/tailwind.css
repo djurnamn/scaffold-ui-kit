@@ -1,0 +1,8 @@
+/* The preview's stylesheet: Tailwind, the kit's tokens, and every class the
+   built components and the stories use. `npm run preview:css` compiles it. */
+@import "tailwindcss";
+@import "../src/styles/tokens.css";
+
+@source "../dist";
+@source "../src/lib";
+@source "./stories";

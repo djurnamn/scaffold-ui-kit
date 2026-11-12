@@ -1,0 +1,20 @@
+@layer charcell.components {
+  /* A control's name and its control are two cells of the grid it sits in
+     (the props window's), so the names line up in one column and the
+     controls in the next. */
+  .Control {
+    display: contents;
+  }
+  .Control__label {
+    min-height: var(--charcell-row);
+    display: flex;
+    align-items: center;
+    color: var(--charcell-mid);
+  }
+  .Control__value {
+    min-width: 0;
+    min-height: var(--charcell-row);
+    display: flex;
+    align-items: center;
+  }
+}

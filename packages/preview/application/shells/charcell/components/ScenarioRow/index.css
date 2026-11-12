@@ -1,0 +1,36 @@
+@layer charcell.components {
+  /* The scenario row fills its panel of the split (StageSplit), which
+     holds its height in whole rows: the view's heading, then a charcell
+     Frame taking the rest, whose body the editor's ScrollArea fills. A
+     column, so the Frame takes the rest of the row where the split sets its
+     height and its content's where the split measures the content to start
+     the row at. */
+  .ScenarioRow {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+  /* The picker and its info button, side by side with no cell between. */
+  .ScenarioRow__pick {
+    display: flex;
+    align-items: center;
+  }
+  .ScenarioRow__frame {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  /* The Frame is flush, so the scrollbar runs beside its ring: the note and
+     the tree each keep a cell from it. */
+  .ScenarioRow__note {
+    margin: 0;
+    padding: 0 1ch;
+    color: var(--charcell-mid);
+  }
+  .ScenarioRow__tree {
+    padding: 0 1ch;
+  }
+}

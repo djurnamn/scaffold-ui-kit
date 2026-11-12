@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "verbatimModuleSyntax": true
+  },
+  "include": [
+    "dist/svelte/**/*",
+    "preview/FormControls.svelte",
+    "preview/modules.d.ts"
+  ]
+}

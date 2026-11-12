@@ -1,0 +1,137 @@
+{
+  "kitName": "acme",
+  "kitVersion": "1.2.3",
+  "colorOptions": [null, "primary", "accent"],
+  "sources": [
+    { "id": "icons", "label": "Icons", "order": 1 },
+    { "id": "core", "label": "Components", "order": 0 }
+  ],
+  "labels": { "emptyScenario": "Blank" },
+  "components": [
+    {
+      "id": "components-button",
+      "name": "Button",
+      "title": "Components/Button",
+      "category": "Components",
+      "propTypes": [
+        {
+          "name": "variant",
+          "control": "select",
+          "options": ["solid", "ghost"],
+          "include": true,
+          "declaredType": "'solid' | 'ghost'",
+          "required": false,
+          "declaredDefault": "solid"
+        },
+        {
+          "name": "disabled",
+          "control": "boolean",
+          "include": true,
+          "declaredType": "boolean",
+          "required": false
+        },
+        {
+          "name": "children",
+          "control": "text",
+          "include": false,
+          "declaredType": "string",
+          "required": true
+        }
+      ],
+      "defaultProps": { "variant": "solid", "children": "Click" },
+      "scenarios": [
+        { "id": "ghost", "label": "Ghost", "props": { "variant": "ghost" } },
+        {
+          "id": "disabled-true",
+          "label": "disabled",
+          "props": { "disabled": true },
+          "generated": true
+        }
+      ],
+      "slots": { "default": true, "named": [] },
+      "source": "core",
+      "targets": ["react", "vue", "svelte"]
+    },
+    {
+      "id": "components-layout-card",
+      "name": "Card",
+      "title": "Components/Layout/Card",
+      "category": "Components/Layout",
+      "propTypes": [
+        {
+          "name": "elevated",
+          "control": "boolean",
+          "include": true,
+          "declaredType": "boolean",
+          "required": false,
+          "declaredDefault": false
+        },
+        {
+          "name": "tone",
+          "control": "color-select",
+          "include": true,
+          "declaredType": "string",
+          "required": false
+        }
+      ],
+      "defaultProps": { "elevated": false, "children": "unused" },
+      "scenarios": [
+        {
+          "id": "raised",
+          "label": "Raised",
+          "props": { "elevated": true },
+          "default": true
+        },
+        { "id": "toned", "label": "Toned", "props": { "tone": "accent" } }
+      ],
+      "slots": { "default": true, "named": ["header"] },
+      "content": {
+        "default": {
+          "kind": "element",
+          "component": "Button",
+          "props": { "variant": "ghost" },
+          "children": { "kind": "text", "value": "Go" }
+        },
+        "named": { "header": { "kind": "text", "value": "Title" } }
+      },
+      "options": { "box": false, "padded": true },
+      "source": "core",
+      "targets": ["react", "vue", "svelte"]
+    },
+    {
+      "id": "components-layout-tab",
+      "name": "Tab",
+      "title": "Components/Layout/Tab",
+      "category": "Components/Layout",
+      "propTypes": [],
+      "defaultProps": {},
+      "scenarios": [],
+      "slots": { "default": true, "named": [] },
+      "standalone": false,
+      "source": "core",
+      "targets": ["react", "vue", "svelte"]
+    },
+    {
+      "id": "icons-icon",
+      "name": "Icon",
+      "title": "Icons/Icon",
+      "category": "Icons",
+      "propTypes": [
+        {
+          "name": "name",
+          "control": "text",
+          "include": true,
+          "declaredType": "string",
+          "required": true
+        }
+      ],
+      "defaultProps": { "name": "star" },
+      "scenarios": [
+        { "id": "heart", "label": "Heart", "props": { "name": "heart" } }
+      ],
+      "slots": { "default": false, "named": [] },
+      "source": "icons",
+      "targets": ["react"]
+    }
+  ]
+}

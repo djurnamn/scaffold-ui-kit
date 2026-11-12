@@ -1,0 +1,7 @@
+@layer charcell.components {
+  /* A picker and its info button, side by side with no cell between. */
+  .StageBar__pick {
+    display: flex;
+    align-items: center;
+  }
+}

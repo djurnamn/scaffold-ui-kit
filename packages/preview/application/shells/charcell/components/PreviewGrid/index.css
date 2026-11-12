@@ -1,0 +1,39 @@
+@layer charcell.components {
+  /* The panes: the targets' preview and code panes in a charcell SplitGrid
+     that fills the grid's place (charcell's `fill`). The frames float on the
+     canvas: the stage's side cells their breathing room to the lines beside
+     them, the invisible-at-rest handles the gaps. No vertical padding: the
+     frames' own ring rows are the breathing room, and their strokes land
+     centered in whole grid rows. */
+  .PreviewGrid {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+  }
+  /* The rows' box: the grid's height, or, stacked, at least the rows' least
+     (`--preview-grid-least-rows`, in rows), the grid then scrolling down
+     past the stage rather than squeezing a row. */
+  .PreviewGrid__rows {
+    flex: 1 1 0;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+  }
+  .PreviewGrid[data-stacked] {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .PreviewGrid[data-stacked] > .PreviewGrid__rows {
+    min-height: calc(var(--preview-grid-least-rows) * var(--charcell-row));
+  }
+  /* Under stacked output rows, the code row holds each target's code pane
+     side by side, a cell apart. */
+  .PreviewGrid__codes {
+    flex: 1;
+    display: flex;
+    gap: 1ch;
+    min-width: 0;
+    min-height: 0;
+  }
+}

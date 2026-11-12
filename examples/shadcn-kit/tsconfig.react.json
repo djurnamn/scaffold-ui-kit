@@ -1,0 +1,4 @@
+{
+  "extends": "@scaffold-ui-kit/testing/tsconfig.consumer.json",
+  "include": ["dist/react"]
+}

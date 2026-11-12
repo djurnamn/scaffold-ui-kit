@@ -1,0 +1,26 @@
+@layer charcell.components {
+  /* A component story's stage: its bar, and its body
+     taking the rest of the height - the grid of panes, under the scenario row
+     while it shows, in a stacked charcell Splitter (StageSplit) that
+     fills the body. The body ends on a whole row, as everything above it
+     does, so the split's rows and the grid's do too. */
+  .ComponentStage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+  .ComponentStage__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+  /* What the body says while no view shows. */
+  .ComponentStage__note {
+    margin: 0;
+    color: var(--charcell-mid);
+  }
+}

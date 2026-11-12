@@ -1,0 +1,37 @@
+/*
+ * The charcell shell's own styling. The terminal look itself is charcell
+ * (`charcell/css/full`: tokens, reset, base, and the Tree / Frame / Select /
+ * Splitter / Toggle / Button / Field / TextInput components the shell
+ * composes) - the shell's stylesheets carry only what is the shell's: the
+ * viewport layout, the bands, the layout zones, the slots, the editor
+ * panel's internals, and the controls' fields. This one declares the layers
+ * and styles the page; each component styles itself, in an `index.css` beside
+ * its `index.tsx` that the component imports. All values ride charcell's
+ * tokens; no palette of its own. The custom properties are the one styling surface the
+ * shell promises; its class names and markup are its own.
+ *
+ * Each of the shell's components is a block of its own, named as the
+ * component is (`Application`, `Bar`, `EditorPanel`), with `Block__element`
+ * and `Block--modifier` classes. A block styles its own elements only: a
+ * charcell component that fills its place in a layout takes charcell's own
+ * `fill`, and where one needs any other size or place, the shell wraps it in
+ * an element of its own and styles that.
+ *
+ * The rules sit in charcell's cascade layers, as a charcell component's do:
+ * the page's in `charcell.base`, the blocks in `charcell.components`. A kit
+ * that adjusts the shell writes its rules in `charcell.overrides`, or outside
+ * any layer, and they win without a fight over specificity.
+ */
+
+@layer charcell.reset, charcell.base, charcell.components, charcell.overrides;
+
+/* The page: the screen (Application) sits centered in it, by margins of its
+   own; the body is a flex container only so those margins stay the screen's
+   rather than collapsing into the body's. */
+@layer charcell.base {
+  body {
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+  }
+}

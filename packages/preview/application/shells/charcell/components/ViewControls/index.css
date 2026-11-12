@@ -1,0 +1,15 @@
+@layer charcell.components {
+  /* The options, the slot and the view's own control, spaced as a band's
+     items are. */
+  .ViewControls {
+    display: flex;
+    align-items: center;
+    gap: 2ch;
+  }
+  /* In a popover, the options a row each. */
+  .ViewControls__options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

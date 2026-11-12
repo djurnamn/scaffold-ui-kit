@@ -1,0 +1,5 @@
+{
+  "extends": "@scaffold-ui-kit/testing/tsconfig.consumer.json",
+  "compilerOptions": { "jsx": "react-jsx", "allowImportingTsExtensions": true },
+  "include": ["dist/react/**/*"]
+}

@@ -1,0 +1,142 @@
+/*
+ * An example consumer stylesheet. It is not part of the kit: the components
+ * render no classes and no styles, and an app styles them like this, keyed
+ * only on ARIA roles, ARIA states and the data-* attributes they emit.
+ */
+
+:root {
+  --accent: #4f46e5;
+  --accent-soft: #eef2ff;
+  --border: #c8c8d0;
+  --text: #1b1b1f;
+  --muted: #f6f6fb;
+}
+
+body {
+  font:
+    14px/1.4 system-ui,
+    sans-serif;
+  color: var(--text);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+button[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Toggle: aria-pressed with data-state="on" | "off". */
+button[aria-pressed][data-state='on'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Switch: role="switch" with a thumb part that carries data-state too. */
+[role='switch'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 2px;
+}
+
+[role='switch'] [data-part='thumb'] {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--border);
+  transition: background 0.15s;
+}
+
+[role='switch'] [data-part='thumb']::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+
+[role='switch'] [data-part='thumb'][data-state='checked'] {
+  background: var(--accent);
+}
+
+[role='switch'] [data-part='thumb'][data-state='checked']::after {
+  transform: translateX(16px);
+}
+
+/* Checkbox: data-state="checked" | "unchecked" | "indeterminate". */
+[role='checkbox'] {
+  min-width: 28px;
+}
+
+[role='checkbox'][data-state='checked'] {
+  background: #15803d;
+  border-color: #15803d;
+  color: #fff;
+}
+
+[role='checkbox'][data-state='indeterminate'] {
+  background: #b45309;
+  border-color: #b45309;
+  color: #fff;
+}
+
+/* RadioGroup: data-orientation on the group, data-state on each radio. */
+[role='radiogroup'] {
+  display: flex;
+  gap: 6px;
+}
+
+[role='radiogroup'][data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+[role='radio'][data-state='checked'] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+/* Collapsible: the trigger has aria-expanded; the region is the element it controls. */
+[aria-expanded][data-state='open'] {
+  background: var(--accent-soft);
+}
+
+[aria-expanded] + [data-state] {
+  margin-top: 6px;
+  padding: 8px;
+  border-left: 3px solid var(--accent);
+  background: var(--muted);
+}
+
+/* Tooltip: role="tooltip", present only while open. */
+[role='tooltip'] {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #1f1f2e;
+  color: #fff;
+  font-size: 0.85em;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+}

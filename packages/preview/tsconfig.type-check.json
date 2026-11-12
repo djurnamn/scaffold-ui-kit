@@ -1,0 +1,22 @@
+{
+  "// purpose": "Type-check the package's source and tests. The Svelte shell under tests/browser/svelte-shell imports the public shell entry by package name, as a kit's own shell does; the path below checks it against the source, so no build is needed first. Its .svelte component is left to Svelte's own tooling.",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "paths": {
+      "@scaffold-ui-kit/preview/shell": ["./src/shell.ts"]
+    }
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "application",
+    "tests/browser/fixture-kit",
+    "tests/browser/.kit",
+    "tests/browser/.kit-svelte-shell"
+  ]
+}

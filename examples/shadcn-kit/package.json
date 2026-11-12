@@ -1,0 +1,95 @@
+{
+  "name": "shadcn-style-kit-example",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A shadcn/ui-inspired example kit built with scaffold-ui-kit: one set of templates, built for React, Vue, Svelte and plain HTML with Tailwind CSS.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./react": "./dist/react/index.ts",
+    "./react/*": "./dist/react/*.tsx",
+    "./vue": "./dist/vue/index.ts",
+    "./vue/*": "./dist/vue/*",
+    "./svelte": "./dist/svelte/index.ts",
+    "./svelte/*": "./dist/svelte/*",
+    "./lib": "./src/lib/index.ts",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "bin": {
+    "shadcn-style-kit-example": "./bin/add.mjs"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE-NOTICES.md"
+  ],
+  "scripts": {
+    "build": "scaffold-ui-kit build",
+    "typecheck": "tsc && npm run typecheck:react && npm run typecheck:vue && npm run typecheck:svelte",
+    "typecheck:react": "tsc --project tsconfig.react.json",
+    "typecheck:vue": "vue-tsc --project tsconfig.vue.json",
+    "typecheck:svelte": "svelte-check --tsconfig ./tsconfig.svelte.json --fail-on-warnings",
+    "check": "scaffold-ui-kit-preview check --strict",
+    "preview:css": "tailwindcss --input preview/tailwind.css --output preview/tailwind.generated.css",
+    "preview": "npm run build && npm run preview:css && scaffold-ui-kit-preview dev",
+    "preview:build": "npm run build && npm run preview:css && scaffold-ui-kit-preview build",
+    "test": "vitest run",
+    "test:browser": "playwright test"
+  },
+  "keywords": [
+    "ui-kit",
+    "component-library",
+    "react",
+    "vue",
+    "svelte",
+    "html",
+    "tailwindcss"
+  ],
+  "dependencies": {
+    "@scaffold-ui-kit/add": "^2.3.0",
+    "@scaffold-ui-kit/helpers": "^2.3.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@js-template-engine/types": "^2.3.0",
+    "@playwright/test": "^1.55.0",
+    "@scaffold-ui-kit/preview": "^2.3.0",
+    "@scaffold-ui-kit/testing": "^2.3.0",
+    "@sveltejs/vite-plugin-svelte": "^6.0.0",
+    "@tailwindcss/cli": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@zag-js/react": "^1.44.0",
+    "charcell": "^0.1.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "scaffold-ui-kit": "^2.3.0",
+    "svelte": "^5.57.3",
+    "svelte-check": "^4.7.7",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.4",
+    "vue": "^3.5.44",
+    "vue-tsc": "^3.3.14"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "svelte": "^5.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "svelte": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}

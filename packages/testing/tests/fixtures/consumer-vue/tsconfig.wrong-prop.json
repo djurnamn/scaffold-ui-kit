@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["WrongProp.vue", "Field.vue"]
+}

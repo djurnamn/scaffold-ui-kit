@@ -1,0 +1,55 @@
+@layer charcell.components {
+  /* The block's place: the rest of the code pane, its iframe filling it. */
+  .KitCodeBlock {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+  }
+  /* While the block's iframe loads, as a preview pane's does (PreviewPane). */
+  .KitCodeBlock:has(> iframe:not([data-preview-shown]))::after {
+    content: 'loading';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--charcell-mid);
+    visibility: hidden;
+    animation:
+      KitCodeBlock-loading 0s 300ms forwards,
+      KitCodeBlock-dots 1.2s 300ms steps(1, end) infinite;
+  }
+  @keyframes KitCodeBlock-loading {
+    to {
+      visibility: visible;
+    }
+  }
+  /* The dots count up, one a step; spaces hold the dots' place, so the
+     word stays put in the monospace face. */
+  @keyframes KitCodeBlock-dots {
+    0% {
+      content: 'loading\00a0\00a0\00a0';
+    }
+    25% {
+      content: 'loading.\00a0\00a0';
+    }
+    50% {
+      content: 'loading..\00a0';
+    }
+    75%,
+    100% {
+      content: 'loading...';
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .KitCodeBlock:has(> iframe:not([data-preview-shown]))::after {
+      animation: KitCodeBlock-loading 0s 300ms forwards;
+    }
+  }
+  .KitCodeBlock > iframe {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    border: 0;
+  }
+}
