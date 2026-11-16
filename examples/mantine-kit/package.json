@@ -63,7 +63,7 @@
     "@scaffold-ui-kit/add": "^2.3.0"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.0",
+    "@axe-core/playwright": "^4.14.0",
     "@js-template-engine/types": "^2.3.0",
     "@playwright/test": "^1.59.0",
     "@scaffold-ui-kit/preview": "^2.3.0",

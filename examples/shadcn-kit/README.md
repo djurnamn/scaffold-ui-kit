@@ -40,7 +40,7 @@ which parts derive from it.
 - **`as` in place of `asChild`.** Button, DialogTrigger and DialogClose
   declare their tag as `{ $expression: "as ?? 'button'", componentValued: true }`,
   so `<DialogTrigger as={Button} variant="outline">` renders the kit's Button
-  with the trigger's behavior, in every framework. React types `as` by the
+  with the trigger's behavior, in every target. React types `as` by the
   tag or component it gets.
 - **Two-way state without per-target code.** A prop with `bindable`
   (`src/components/switch.ts`, `input.ts`, `accordion.ts`) becomes
@@ -49,7 +49,7 @@ which parts derive from it.
   uncontrolled case. `extensions.vue.model` lets Vue users write a bare
   `v-model`.
 - **Compound components.** `src/components/tabs.ts` and `dialog.ts` provide a
-  context, and each part reads it in a short script per framework. The root's
+  context, and each part reads it in a short script per target. The root's
   outer node is a `fragment` that becomes `<TabsContext value={...}>` in
   React only. The Svelte scripts have `legacy` and `runes` blocks, so the kit
   builds in either Svelte mode.
@@ -71,7 +71,7 @@ which parts derive from it.
   `group-open:rotate-180` sit in the templates unchanged. The tokens and the
   `dark` variant live in `src/styles/tokens.css`.
 - **Stories.** `preview/stories/` gives each component its stories:
-  controlled scenarios (a click in any framework's pane moves every pane), a
+  controlled scenarios (a click in any target's pane moves every pane), a
   dark scenario through the `mode` option, and slot content that composes kit
   components. The `preview` block in `scaffold-ui-kit.ts` declares the
   themes, the `mode` option and pane widths at Tailwind's breakpoints.
@@ -111,7 +111,7 @@ npm run preview:build  # the same as a static site in .preview-static/
 ```
 
 The preview shows each story in the React, Vue, Svelte and HTML panes side by
-side, with the printed source for each framework.
+side, with the printed source for each target.
 
 ## Use the components in an app
 

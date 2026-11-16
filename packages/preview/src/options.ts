@@ -177,8 +177,8 @@ export interface PreviewMountNode {
   ref?: string;
   /** Child nodes, rendered in order. */
   children?: PreviewMountNode[];
-  /** Marks the node the `#app` mount is reparented into. Exactly one node in
-   *  the tree sets this. */
+  /** Marks the node the `#app` mount is reparented into. At most one node in
+   *  the tree sets this; without one the mount goes into the outermost node. */
   mount?: boolean;
 }
 

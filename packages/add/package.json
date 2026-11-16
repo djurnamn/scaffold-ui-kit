@@ -1,6 +1,6 @@
 {
   "name": "@scaffold-ui-kit/add",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "The consumer CLI behind every kit built by scaffold-ui-kit: copies a kit's components into your project as you place and own them, and keeps the copies up to date",
   "type": "module",
   "main": "src/add.mjs",

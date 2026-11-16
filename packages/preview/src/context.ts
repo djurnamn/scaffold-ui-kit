@@ -366,7 +366,7 @@ function shellSettingProblem(setting: unknown): string | undefined {
   return undefined;
 }
 
-/** The shell shipped with the preview, named when a kit configures none. */
+/** The shell shipped with the preview, which the messages about `preview.shell` name. */
 export const CHARCELL_SHELL = '@scaffold-ui-kit/preview/shells/charcell';
 
 /**

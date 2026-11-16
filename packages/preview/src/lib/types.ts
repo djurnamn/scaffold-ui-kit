@@ -153,8 +153,8 @@ export type SlotFill =
       /**
        * A **scoped** slot fill - content the *parent* parameterizes with runtime
        * values (a row, an index, a setter), the cross-framework generalization of a
-       * React render-prop. Only valid at a top-level named-slot position (it needs the
-       * host component to supply the scope), never nested inside another fill.
+       * React render-prop. Only valid as a top-level fill, in `default` or `named` (it
+       * needs the host component to supply the scope), never nested inside another fill.
        *
        * Its target name differs per framework because the same scoped slot is a render-prop
        * in React but a scoped slot / snippet in Vue/Svelte (e.g. a table's
@@ -564,8 +564,9 @@ export interface PreviewSourceConfiguration {
   /** The directory of component templates to read, relative to the kit
    *  root (omit for a source of manual specs alone). */
   templatesDirectory?: string;
-  /** Module (relative to the kit root) whose default/named export supplies the
-   *  source's manual (non-template) component specs: `() => EnumeratedComponent[]`. */
+  /** Module (relative to the kit root) whose default export supplies the
+   *  source's manual (non-template) component specs:
+   *  `() => ManualComponentSpecification[]`. */
   manualModule?: string;
   /** This source's stories directory, relative to the kit root. */
   storiesDirectory?: string;

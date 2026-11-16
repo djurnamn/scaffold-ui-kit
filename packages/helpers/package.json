@@ -1,6 +1,6 @@
 {
   "name": "@scaffold-ui-kit/helpers",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Helpers for kits built with scaffold-ui-kit: style helpers for templates, the runtime a kit's hand-written components call on every target, and fixes for components built on Zag machines",
   "type": "module",
   "exports": {

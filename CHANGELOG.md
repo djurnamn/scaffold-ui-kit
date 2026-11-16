@@ -8,6 +8,31 @@ this file. The five release together at the same version.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2026-11-15
+
+A patch release. No component a kit builds changes.
+
+### Changed
+
+- **The preview's README is the overview, and its reference is in
+  `documentation/`.** The README had grown past what the npm registry
+  stores, so the package page cut it off. Story files, the kit's vocabulary,
+  custom views, the charcell shell, writing a shell, using the preview from
+  code and its testing helpers each have a file in the package's
+  `documentation` directory, which ships with it, and the README links to
+  them.
+- **`@scaffold-ui-kit/testing` takes `@axe-core/playwright` 4.14.0 or
+  later.** The peer range admitted 4.10.0, but the default tags name
+  `wcag21a`, and the one rule carrying it runs only from 4.14.0: on an
+  earlier version `scanAccessibility` and every sweep threw "no axe rule
+  carries wcag21a". The example kits ask for 4.14.0 as well.
+
+### Fixed
+
+- **The notes for 2.3.0 below are corrected.** Entries that described a fix
+  to something first released in 2.3.0 are folded into the entry that adds
+  it, and a paragraph about preview keys that were never published is gone.
+
 ## [2.3.0] - 2026-11-12
 
 A minor release on js-template-engine 2.3.0. Every new configuration key has
@@ -87,18 +112,12 @@ it. Pass the
 `--output-directory` the copies were made with; elsewhere `add` finds no file
 to replace, adds a second copy beside the old one, and says so.
 
-A kit that ran the preview from a build before this release renames these
-keys, with no alias: `scopes` is `sources`, `sidecarsDirectory` is
-`storiesDirectory`, `*.sidecar.ts` files are `*.story.ts`, the `Sidecar` type
-is `Story`, `partial` is `standalone: false`, and what a `configurationModule`
-exported (`themes`, `canvas`, `mount`, `options`) are keys of the `preview`
-block.
-
 A kit made before 2.3.0 gets none of what `initialize` now writes for a new
 one. A kit styled with Tailwind classes sets up its preview's Tailwind build
-as the preview README's "A kit styled with Tailwind" section describes, and
-adds an `add.notes` line telling consumers to make sure their Tailwind build
-scans the directory `add` copies components into. A kit under
+as "A kit styled with Tailwind" in the preview's
+`documentation/kit-vocabulary.md` describes, and adds an `add.notes` line
+telling consumers to make sure their Tailwind build scans the directory
+`add` copies components into. A kit under
 `tailwind: { output: 'styles' }` needs neither: its components carry plain
 CSS and no Tailwind class.
 
@@ -177,7 +196,15 @@ importSource }`, `tailwind: { output, darkSelector, convertStyles }` and
   directory. A ledger that is not as the commands write
   it is an error naming the file and each problem, settings paths separate
   directories with `/` on every platform, and neither command writes over a
-  symbolic link. Running `add` again with a wider `--own` reaches the copies
+  symbolic link. `initialize --yes` takes the defaults without asking: the
+  target is the one framework your `package.json` lists among the kit's
+  targets, or the kit's first target when none or several match.
+  `add <name> --force` replaces the named components' own files, with the
+  helpers they reach and the parts a named root brings; a dependency or
+  shared file that differs from what the kit writes is kept and named in the
+  output, and the copies import that file. When a named component has no
+  file where the run writes, `add` says that `--force` replaced nothing
+  there. Running `add` again with a wider `--own` reaches the copies
   the named component composes too: an untouched one is written again to
   import the shared modules now owned, and the files it reaches come along;
   an edited one is kept with a warning naming the imports still pointing at
@@ -199,11 +226,16 @@ importSource }`, `tailwind: { output, darkSelector, convertStyles }` and
   consumer's attributes onto a root whose props a behavior supplies (classes
   joined, styles merged, both handlers run unless the consumer's prevents
   the default), with `consumerClass` and `withoutClass` for a root of the
-  component's own markup; it imports no framework. `/runtime/svelte` has
+  component's own markup, and `scriptFailureBootstrapScript`, an inline
+  script that marks `<html>` when the page's scripts fail to load, so a
+  stylesheet can show content only a script reveals, with
+  `scriptFailureAttribute` for the attribute's name; it imports no
+  framework. `/runtime/svelte` has
   the `portal` action and its attachment form, `portalTo`, with Svelte 5.29
   or later as an optional peer. `/zag` has fixes for components built on Zag
   machines, without importing Zag: `resolveOverlayLabeling` drops a
-  reference to an unrendered label part, `mergeTriggerProps`,
+  reference to an unrendered label part and `withoutUnrenderedDescription`
+  one to an unrendered description part, `mergeTriggerProps`,
   `labelListbox`, `selectValueId` and `selectLabelId` name a Select's
   trigger and listbox, `closingOnPressOutside` closes an overlay at the
   press, `returningFocus` sends a dialog's focus to a fallback when its
@@ -288,7 +320,7 @@ importSource }`, `tailwind: { output, darkSelector, convertStyles }` and
   `dist/stylesheets` (or `compiledStylesheetDirectory`) when it is the same on
   every target, per target otherwise, so a consumer who owns a component and
   not its stylesheet imports the kit's CSS for it. `compiledStylesheetDirectory`
-  no longer needs `stylesheetLink: 'both'`.
+  takes any `stylesheetLink`.
 - **One package per target.** The kit configuration's `packages` builds each
   scripted target into a package of its own (`@acme/react`, `acme-vue`, any
   names) beside a package of stylesheets, so each states the framework it
@@ -307,8 +339,11 @@ importSource }`, `tailwind: { output, darkSelector, convertStyles }` and
   manifest naming the package of every file it points at, and its own
   consumer command, `<kit>-<target>`, which copies its target with none to
   choose. A shared module's source and a load path may lie in any of the
-  packages. `packages` needs `stylesheetLink` of `both` or `none`, and a kit
-  building the `html` target stays one package.
+  packages. A relative import that leads to no file in its package fails
+  the build, naming the file and the import, and for a stylesheet the build
+  moved into the styles package, what to do instead. `packages` needs
+  `stylesheetLink` of `both` or `none`, and a kit building the `html` target
+  stays one package.
 - **`add` from a package of a kit built into several.** `npx @acme/react add`
   reads the files it copies from the kit's packages where they are
   installed, imports what the consumer leaves in each by that package's
@@ -543,9 +578,9 @@ tailwind` adds `tailwindcss` and `@tailwindcss/cli`, a
   sources, and a `preview:css` script that compiles it into the stylesheet
   the preview block's `themes` loads, run by the `preview` and `preview:build` scripts
   after they build the kit. The kit's `add.notes` tells a consumer to make
-  sure their Tailwind build scans the copied components. The preview's README
-  gives the same setup for any kit, with a `dark` variant that follows a mode
-  option.
+  sure their Tailwind build scans the copied components. The preview's
+  `documentation/kit-vocabulary.md` gives the same setup for any kit, with a
+  `dark` variant that follows a mode option.
 
 - **A status bar, keys and pane actions.** The default shell's status bar
   says whether the panes are ready, loading or regenerating, and which
@@ -716,7 +751,10 @@ tailwind` adds `tailwindcss` and `@tailwindcss/cli`, a
 - **Preview options say what they mean.** An option's kind follows from its
   fields: with `values` it is a choice, without a boolean. `group` is a
   placement hint a shell reads, `kit` for the kit's own settings or a name of
-  the kit's choosing, and `scope` makes an option global or per story. A key
+  the kit's choosing, and `scope` makes an option global or per story. A
+  `root-attribute` apply takes `omitAtDefault: true`, which leaves the
+  attribute off at the option's default value, for a kit whose default mode
+  renders with no attribute. A key
   an option, one of its values or its `apply` does not take, such as a
   `description` where an option takes `title`, is an error in `check`,
   `generate`, `build` and `dev`.
@@ -822,7 +860,8 @@ tailwind` adds `tailwindcss` and `@tailwindcss/cli`, a
   template emits through `extensions.svelte.ignore` silences it. The
   warnings never fail the build; a component the compiler cannot compile is
   an error, which exits non-zero and leaves the file written so it can be
-  read. A kit without Svelte installed gets no check.
+  read. A kit without Svelte 5 or later installed gets a note saying the
+  components were not compile-checked.
 - **A Tailwind kit's examples are styled with utilities.** `initialize`
   writes the example components of a kit styled with Tailwind with utility
   classes and no style block, so they render the same in every target and
@@ -834,8 +873,9 @@ tailwind` adds `tailwindcss` and `@tailwindcss/cli`, a
 - **`add --stylesheet-link component|none`.** `add` links each copied
   component to the stylesheet copied beside it, in the form and at the place
   the build puts the link, or copies it unlinked under `none`, whichever way
-  the kit was built. A component's stylesheet is copied with it even when no
-  import leads to it.
+  the kit was built. In a React component that starts with `'use client';`
+  the link goes after the directive. A component's stylesheet is copied with
+  it even when no import leads to it.
 
 ### Changed
 
@@ -849,9 +889,7 @@ tailwind` adds `tailwindcss` and `@tailwindcss/cli`, a
   exports each target's unlinked components, with the stylesheets in
   `sideEffects`, so a first build has one stylesheet per component and no
   warning. A kit styled with Tailwind classes
-  has no stylesheets to link and gets neither. `initialize` no longer writes
-  `./stylesheets/*.css`, or for a Tailwind kit `./react/*.css`, exports that
-  led to no files.
+  has no stylesheets to link and gets neither.
 - **The example Button is a real button.** It forwards a consumer's
   attributes and listeners through `passthrough`, and no longer logs to the
   console.
@@ -944,22 +982,6 @@ label, ...`).
 - **A kit's first screen was empty.** The example Button and Card now default
   their `label` and `title`, so a fresh kit's components show text without a
   story file.
-- **The build did not say when it skipped the Svelte compile check.** A kit
-  with a Svelte target and no Svelte 5 or later installed now gets a note
-  saying the components were not compile-checked.
-- **`add <name> --force` replaced the files of components it was not named
-  for.** It replaces the named components' own files, with the helpers they
-  reach and the parts a named root brings; a dependency or shared file that
-  differs from what the kit writes is kept and named in the output, and the
-  copies import that file. When a named component had no file where the run
-  writes, `add` says that `--force` replaced nothing there.
-- **`add initialize --yes` chose the kit's first target over the project's
-  framework.** The default is now the one target your `package.json` lists
-  (`react`, `vue` or `svelte`), or the first target when none or several match.
-- **Under `packages`, a relative import leading to no file in its package
-  built without complaint** and failed in the consumer's bundler. It now
-  fails the build, naming the file and the import, and for a stylesheet
-  the build moved into the styles package, what to do instead.
 - **A kit with the `react` target had no `jsx` in its `tsconfig.json`.**
   `initialize` sets `react-jsx`.
 - **A kit configuration without `styling` failed the build.** It builds with
@@ -987,11 +1009,6 @@ label, ...`).
 - **`add` rejected a component's kebab-case name.** `npx <kit> add
 text-input` now copies `TextInput`, as `add TextInput` does: a request
   matches the kebab-case name of the template file too.
-- **`add` warned about a React client component's stylesheet link.** A
-  component that starts with `'use client';` was reported as linking its
-  stylesheet somewhere the build does not put the link, and
-  `--stylesheet-link` left it as it was. The link is now found after the
-  directive, and added or removed there.
 
 ## [2.2.1] - 2026-09-10
 

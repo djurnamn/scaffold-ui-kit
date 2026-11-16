@@ -8,14 +8,14 @@ import {
 
 describe('scriptFailureAttribute', () => {
   it("names the attribute after the kit's prefix", () => {
-    expect(scriptFailureAttribute('djui')).toBe('data-djui-scripts');
+    expect(scriptFailureAttribute('acme')).toBe('data-acme-scripts');
     expect(scriptFailureAttribute('char-cell2')).toBe(
       'data-char-cell2-scripts'
     );
   });
 
   it('refuses a prefix that cannot name an attribute', () => {
-    for (const prefix of ['', 'Djui', '1kit', 'kit"', 'kit scripts', '-kit']) {
+    for (const prefix of ['', 'Acme', '1kit', 'kit"', 'kit scripts', '-kit']) {
       expect(() => scriptFailureAttribute(prefix)).toThrow(
         /cannot name an attribute/
       );
@@ -113,7 +113,7 @@ describe('scriptFailureBootstrapScript', () => {
   it("stamps only the given kit's attribute", () => {
     failToLoad(document.createElement('script'));
     expect(
-      document.documentElement.getAttribute('data-djui-scripts')
+      document.documentElement.getAttribute('data-acme-scripts')
     ).toBeNull();
   });
 

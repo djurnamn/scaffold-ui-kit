@@ -1,7 +1,7 @@
 {
   "name": "@scaffold-ui-kit/preview",
-  "version": "2.3.0",
-  "description": "Preview for scaffold-ui-kit kits: a Vite host with native per-framework preview iframes, a composable slot editor, scenarios, and live regeneration - configured through the preview block of the kit's configuration.",
+  "version": "2.3.1",
+  "description": "Preview for scaffold-ui-kit kits: a Vite host with native per-target preview iframes, a composable slot editor, scenarios, and live regeneration - configured through the preview block of the kit's configuration.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -47,6 +47,7 @@
     "dist",
     "application",
     "src",
+    "documentation",
     "README.md",
     "LICENSE"
   ],
@@ -66,11 +67,11 @@
     "typecheck:app": "tsc -p tsconfig.app.json"
   },
   "dependencies": {
-    "@js-template-engine/core": "^2.3.0",
-    "@js-template-engine/extension-bem": "^2.3.0",
-    "@js-template-engine/extension-react": "^2.3.0",
-    "@js-template-engine/extension-tailwind": "^2.3.0",
-    "@js-template-engine/types": "^2.3.0",
+    "@js-template-engine/core": "^2.3.1",
+    "@js-template-engine/extension-bem": "^2.3.1",
+    "@js-template-engine/extension-react": "^2.3.1",
+    "@js-template-engine/extension-tailwind": "^2.3.1",
+    "@js-template-engine/types": "^2.3.1",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@vitejs/plugin-react": "^5.2.0",
     "@vitejs/plugin-vue": "^6.0.9",
@@ -79,7 +80,7 @@
     "markdown-to-jsx": "^9.10.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "scaffold-ui-kit": "^2.3.0",
+    "scaffold-ui-kit": "^2.3.1",
     "svelte": "^5.56.3",
     "typescript": "^5.4.5",
     "vite": "^7.3.5",

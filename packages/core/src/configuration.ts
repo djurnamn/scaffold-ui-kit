@@ -372,7 +372,7 @@ export interface KitConfiguration {
   parts?: Record<string, string[]>;
   /**
    * @deprecated Use `stylesheetPlacement` instead. `stylingStrategy` is kept
-   * as an alias until the next major version; a build reads it as
+   * as an alias until 3.0.0; a build reads it as
    * `stylesheetPlacement`, with a warning.
    */
   stylingStrategy?: StylesheetPlacement;
@@ -388,49 +388,49 @@ export interface KitConfiguration {
   scriptingLanguage?: 'javascript' | 'typescript';
   /**
    * @deprecated Use `tailwind.output` instead. `tailwindOutput` is kept as
-   * an alias until the next major version; a build reads it into the
+   * an alias until 3.0.0; a build reads it into the
    * `tailwind` block, with a warning.
    */
   tailwindOutput?: TailwindOutput;
   /**
    * @deprecated Use `tailwind.darkSelector` instead. `tailwindDarkSelector`
-   * is kept as an alias until the next major version; a build reads it into
+   * is kept as an alias until 3.0.0; a build reads it into
    * the `tailwind` block, with a warning.
    */
   tailwindDarkSelector?: string;
   /**
    * @deprecated Use `tailwind.convertStyles` instead.
-   * `tailwindConvertStyles` is kept as an alias until the next major
-   * version; a build reads it into the `tailwind` block, with a warning.
+   * `tailwindConvertStyles` is kept as an alias until 3.0.0; a build reads
+   * it into the `tailwind` block, with a warning.
    */
   tailwindConvertStyles?: boolean;
   /**
    * @deprecated Use `bem.elementSeparator` instead. `bemElementSeparator`
-   * is kept as an alias until the next major version; a build reads it into
+   * is kept as an alias until 3.0.0; a build reads it into
    * the `bem` block, with a warning.
    */
   bemElementSeparator?: string;
   /**
    * @deprecated Use `bem.modifierSeparator` instead. `bemModifierSeparator`
-   * is kept as an alias until the next major version; a build reads it into
+   * is kept as an alias until 3.0.0; a build reads it into
    * the `bem` block, with a warning.
    */
   bemModifierSeparator?: string;
   /**
    * @deprecated Use `bem.mode` instead. `bemMode` is kept as an alias until
-   * the next major version; a build reads it into the `bem` block, with a
+   * 3.0.0; a build reads it into the `bem` block, with a
    * warning.
    */
   bemMode?: BemMode;
   /**
    * @deprecated Use `bem.importSource` instead. `bemImportSource` is kept as
-   * an alias until the next major version; a build reads it into the `bem`
+   * an alias until 3.0.0; a build reads it into the `bem`
    * block, with a warning.
    */
   bemImportSource?: string;
   /**
    * @deprecated Use `svelte.mode` instead. `svelteMode` is kept as an alias
-   * until the next major version; a build reads it into the `svelte` block,
+   * until 3.0.0; a build reads it into the `svelte` block,
    * with a warning.
    */
   svelteMode?: SvelteMode;

@@ -103,9 +103,9 @@ framework yet.
    opens with; `npm run build` does their work.
 2. Give it a story, `preview/stories/<Name>.story.ts`, for its default props
    and named states. A required prop needs a value there, or the component
-   renders without it. The
-   [preview README](https://www.npmjs.com/package/@scaffold-ui-kit/preview)
-   has the format, under "Story files".
+   renders without it. The preview's
+   [Story files](https://github.com/djurnamn/scaffold-ui-kit/blob/main/packages/preview/documentation/story-files.md)
+   page has the format.
 3. Add tests, if you want them: [Testing and helpers](#testing-and-helpers).
 4. Try `add` in a project of yours, from a tarball, before publishing:
    [Publish and consume](#publish-and-consume).

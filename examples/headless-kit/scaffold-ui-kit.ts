@@ -2,7 +2,7 @@
 import { defineKit } from 'scaffold-ui-kit';
 
 export default defineKit({
-  name: 'headless-kit',
+  name: 'headless-kit-example',
   targets: ['react', 'vue', 'svelte'],
   styling: [],
   svelte: { mode: 'runes' },

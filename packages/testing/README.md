@@ -579,6 +579,10 @@ or an option value the option does not list. A `tags` value no axe rule
 carries throws too, naming it, even beside a tag a rule does carry, and an
 empty `tags` or `rules` list throws.
 
+`keyboard: false` leaves the keyboard walk out, so each state is scanned
+with axe alone. `baseUrl` names where the preview is served, when that is
+not the test runner's base URL.
+
 `tags` replaces the axe rule tags, WCAG 2.1 A and AA by default, for the first
 pass and any pass that names no `rules`; a pass with `rules` runs those alone.
 The default tags leave out `best-practice` rules, among them

@@ -51,7 +51,7 @@ program
 program
   .command('dev')
   .description(
-    'generate, then serve the preview (host + framework iframes), regenerating as the kit changes'
+    'generate, then serve the preview (host + target iframes), regenerating as the kit changes'
   )
   .option(
     '--port <number>',

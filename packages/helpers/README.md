@@ -149,7 +149,7 @@ Place it in `<head>`, before the page's own scripts:
 <head>
   <script
     dangerouslySetInnerHTML={{
-      __html: scriptFailureBootstrapScript({ prefix: 'djui' }),
+      __html: scriptFailureBootstrapScript({ prefix: 'acme' }),
     }}
   />
 </head>
@@ -161,19 +161,19 @@ and the fallback CSS applies to a root without that mark, under
 
 ```css
 @media (scripting: none) {
-  .DjuiTabs:not(.DjuiTabs--scripted) .DjuiTabs__panel {
+  .AcmeTabs:not(.AcmeTabs--scripted) .AcmeTabs__panel {
     display: block;
   }
 }
-[data-djui-scripts='failed']
-  .DjuiTabs:not(.DjuiTabs--scripted)
-  .DjuiTabs__panel {
+[data-acme-scripts='failed']
+  .AcmeTabs:not(.AcmeTabs--scripted)
+  .AcmeTabs__panel {
   display: block;
 }
 ```
 
 `scriptFailureAttribute(prefix)` returns the attribute name, here
-`data-djui-scripts`. A Content Security Policy that blocks inline scripts
+`data-acme-scripts`. A Content Security Policy that blocks inline scripts
 needs a nonce or a hash for this one.
 
 ## `@scaffold-ui-kit/helpers/runtime/svelte`

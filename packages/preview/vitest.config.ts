@@ -76,9 +76,13 @@ export default defineConfig({
       },
     },
     include: ['tests/**/*.test.ts'],
+    setupFiles: ['./tests/support/patient-waits.ts'],
     // The host tests mount the whole shell before each test, which takes a
     // fraction of a second alone and can pass Vitest's ten under a full
     // workspace run's load.
     hookTimeout: 30_000,
+    // A test that mounts a frame or a shell takes well under a second alone
+    // and can pass Vitest's five under the same load.
+    testTimeout: 30_000,
   },
 });

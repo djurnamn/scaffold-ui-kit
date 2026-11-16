@@ -84,7 +84,7 @@ callback, generated from one `bindable` declaration in the template:
 <Switch defaultChecked onCheckedChange={(checked) => console.log(checked)} aria-label="Wi-Fi" />
 ```
 
-Compound parts are written the same way in every framework:
+Compound parts are written the same way in every target:
 
 ```tsx
 <Tooltip openDelay={300}>
@@ -114,7 +114,7 @@ Compound parts are written the same way in every framework:
   Svelte), and the parts wire them into `aria-controls` and
   `aria-describedby`.
 - **Compound components.** The Collapsible and Tooltip roots share their state
-  with their parts through each framework's context. The context type is one
+  with their parts through each target's context. The context type is one
   shared `imports` line; the root's outer node is a `fragment` whose React
   override renders `<CollapsibleContext value={context}>`, while Vue and
   Svelte provide the context from the script.
@@ -132,7 +132,7 @@ Compound parts are written the same way in every framework:
 - **State machines.** `Modal` and `Select` run [Zag](https://zagjs.com)
   machines. `src/components/modal-visual.ts` and `select-visual.ts` are the
   markup, one template for every target; `src/drivers/<target>/` holds the
-  machine for each framework, and `preview/manual-components.ts` describes
+  machine for each target, and `preview/manual-components.ts` describes
   those components to the preview. `@scaffold-ui-kit/helpers` covers what the
   machines leave to a kit: naming a dialog that has no visible title, returning
   focus when the trigger is gone, and naming a select's trigger and listbox.
@@ -140,7 +140,7 @@ Compound parts are written the same way in every framework:
   React, Vue and Svelte and appears in the preview.
 - **Preview stories.** `preview/stories/` gives each component its slot
   content and scenarios: a `Controlled` story where the story owns the value,
-  so acting in one framework's pane moves all three, plus `Indeterminate`,
+  so acting in one target's pane moves all three, plus `Indeterminate`,
   `In a form`, `Horizontal`, `Open by default` and `No delay`.
 
 ## Build and check

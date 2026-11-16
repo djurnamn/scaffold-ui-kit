@@ -1,6 +1,6 @@
 {
   "name": "@scaffold-ui-kit/testing",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Testing for kits built with scaffold-ui-kit: render a component in React, Vue and Svelte on the server and compare the markup, type-check the built targets as a strict consumer would, and sweep the preview's scenarios in a browser with axe and the keyboard",
   "type": "module",
   "exports": {
@@ -41,8 +41,8 @@
     "node": ">=22"
   },
   "peerDependencies": {
-    "@axe-core/playwright": "^4.10.0",
-    "@scaffold-ui-kit/preview": "^2.3.0",
+    "@axe-core/playwright": "^4.14.0",
+    "@scaffold-ui-kit/preview": "^2.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "svelte": "^5.29.0",
@@ -73,9 +73,9 @@
     }
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "1.62.1",
-    "@scaffold-ui-kit/preview": "^2.3.0",
+    "@scaffold-ui-kit/preview": "^2.3.1",
     "@types/node": "^20.17.46",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

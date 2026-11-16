@@ -3,8 +3,8 @@
  */
 export interface ScriptFailureBootstrapOptions {
   /**
-   * The kit's prefix, as its components' data attributes use it: `djui`
-   * stamps `data-djui-scripts`. Lowercase letters, digits and hyphens,
+   * The kit's prefix, as its components' data attributes use it: `acme`
+   * stamps `data-acme-scripts`. Lowercase letters, digits and hyphens,
    * starting with a letter.
    */
   prefix: string;
@@ -24,7 +24,7 @@ const PREFIX_PATTERN = /^[a-z][a-z0-9-]*$/;
  *
  * @example
  * ```ts
- * scriptFailureAttribute('djui'); // 'data-djui-scripts'
+ * scriptFailureAttribute('acme'); // 'data-acme-scripts'
  * ```
  */
 export function scriptFailureAttribute(prefix: string): string {
@@ -80,7 +80,7 @@ export function scriptFailureAttribute(prefix: string): string {
  * <head>
  *   <script
  *     dangerouslySetInnerHTML={{
- *       __html: scriptFailureBootstrapScript({ prefix: 'djui' }),
+ *       __html: scriptFailureBootstrapScript({ prefix: 'acme' }),
  *     }}
  *   />
  * </head>
